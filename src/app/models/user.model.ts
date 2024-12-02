@@ -4,4 +4,6 @@ export interface User {
   password: string;
   name: string;
   role: string; // Agrega el campo role
+  subject?: string;  // solo si es profesor
+
 }

@@ -19,6 +19,10 @@ const routes: Routes = [
     path: 'profesor-index',
     loadChildren: () => import('./pages/profesor-index/profesor-index.module').then( m => m.ProfesorIndexPageModule)
   },
+  {
+    path: 'generar-asignaturas',
+    loadChildren: () => import('./pages/generar-asignaturas/generar-asignaturas.module').then( m => m.GenerarAsignaturasPageModule)
+  },
 
 ];
 

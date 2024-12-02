@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { User } from 'src/app/models/user.model';
+import { User } from 'src/app/models/user.model';  // Asegúrate de tener esta interfaz
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { UtilsService } from 'src/app/services/utils.service';
 
@@ -30,6 +30,12 @@ export class SignUpPage implements OnInit {
       this.updateEmailDomain(role);
       this.updateSubjectField(role);
     });
+
+    // Si el usuario es profesor, cargar su asignatura desde Firebase
+    const uid = this.utilSvc.getFromLocalStorage('user')?.uid;
+    if (uid) {
+      this.loadUserData(uid);
+    }
   }
 
   updateEmailDomain(role: string) {
@@ -85,6 +91,11 @@ export class SignUpPage implements OnInit {
       let path = `users/${uid}`;
       delete this.form.value.password;
 
+      // Aseguramos que si es un profesor, almacenamos la asignatura
+      if (this.form.controls.role.value === 'profesor') {
+        this.form.value.subject = this.form.controls.subject.value;  // Asignar la asignatura seleccionada
+      }
+
       this.firebaseSvc.setDocument(path, this.form.value).then(async res => {
         this.utilSvc.saveInLocalStorage('user', this.form.value);
         this.utilSvc.routerLink('/main/home');
@@ -103,5 +114,16 @@ export class SignUpPage implements OnInit {
       });
     }
   }
-}
 
+  async loadUserData(uid: string) {
+    const userData = await this.firebaseSvc.getDocument(`users/${uid}`);
+    if (userData) {
+      this.form.patchValue(userData);
+      // Si el rol es profesor, habilitar la asignatura
+      if (userData['role'] === 'profesor') {  // Usamos el acceso con el índice
+        this.form.controls.subject.setValue(userData['subject']);
+        this.updateSubjectField('profesor');
+      }
+    }
+  }
+}
