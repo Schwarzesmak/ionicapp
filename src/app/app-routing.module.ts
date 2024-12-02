@@ -15,7 +15,11 @@ const routes: Routes = [
   {
     path: 'main',
     loadChildren: () => import('./pages/main/main.module').then( m => m.MainPageModule)
+  },  {
+    path: 'profesor-index',
+    loadChildren: () => import('./pages/profesor-index/profesor-index.module').then( m => m.ProfesorIndexPageModule)
   },
+
 ];
 
 @NgModule({

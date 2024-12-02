@@ -1,0 +1,125 @@
+<app-header title="Bienvenido Profesor"></app-header>
+
+<ion-content class="profesor-content">
+
+  <!-- Banner -->
+  <div class="profesor-banner">
+    <img src="assets/profesor-banner.jpg" alt="Profesor" class="banner-img" />
+    <h2>Bienvenido de nuevo, Profesor</h2>
+  </div>
+
+  <!-- Bienvenida -->
+  <div class="welcome-text">
+    <h3>Tu dashboard te espera</h3>
+    <p>Accede a tus asignaturas, consulta el progreso de los estudiantes y mucho más.</p>
+  </div>
+
+  <!-- Acciones rápidas -->
+  <div class="quick-actions">
+    <ion-button expand="block" color="primary" routerLink="/profesor/assignments">
+      <ion-icon slot="start" name="clipboard-outline"></ion-icon>
+      Ver Asignaturas
+    </ion-button>
+    <ion-button expand="block" color="secondary" routerLink="/profesor/students">
+      <ion-icon slot="start" name="people-outline"></ion-icon>
+      Consultar Estudiantes
+    </ion-button>
+    <ion-button expand="block" color="tertiary" routerLink="/profesor/grades">
+      <ion-icon slot="start" name="school-outline"></ion-icon>
+      Consultar Calificaciones
+    </ion-button>
+  </div>
+
+  <!-- Recursos útiles -->
+  <div class="resources">
+    <h4>Recursos útiles</h4>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Guía para Docentes</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>Consulta nuestra guía para obtener información detallada sobre cómo gestionar tus clases.</p>
+        <ion-button expand="full" color="light" routerLink="/profesor/guide">
+          Ver Guía
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Material de Estudio</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>Accede al material de estudio más reciente para enriquecer tu enseñanza.</p>
+        <ion-button expand="full" color="light" routerLink="/profesor/material">
+          Ver Material
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+</ion-content>
+
+<style>
+  .profesor-content {
+    --background: #f7f7f7;
+    padding: 20px;
+  }
+
+  .profesor-banner {
+    background-color: #f0f4f8;
+    padding: 30px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .profesor-banner .banner-img {
+    width: 100%;
+    border-radius: 10px;
+    height: auto;
+    max-height: 250px;
+  }
+
+  .profesor-banner h2 {
+    font-size: 2rem;
+    color: #333;
+    margin-top: 15px;
+  }
+
+  .welcome-text {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .welcome-text h3 {
+    font-size: 1.8rem;
+    color: #333;
+    font-weight: bold;
+  }
+
+  .welcome-text p {
+    font-size: 1rem;
+    color: #777;
+  }
+
+  .quick-actions ion-button {
+    margin-bottom: 15px;
+  }
+
+  .resources ion-card {
+    margin-bottom: 20px;
+  }
+
+  .resources ion-card-header {
+    background-color: #e7e7e7;
+  }
+
+  .resources ion-card-title {
+    font-size: 1.2rem;
+    color: #333;
+  }
+
+  .resources ion-button {
+    margin-top: 15px;
+  }
+</style>
