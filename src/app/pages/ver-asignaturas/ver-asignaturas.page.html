@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Asignaturas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let asignatura of asignaturas">
+      <ion-label>{{ asignatura.nombre }}</ion-label>
+      <ion-button color="danger" (click)="eliminarAsignatura(asignatura.id)">
+        Eliminar
+      </ion-button>
+      <ion-button color="primary" (click)="generarCodigoQR(asignatura)">
+        Generar QR
+      </ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>

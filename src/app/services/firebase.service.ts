@@ -89,5 +89,17 @@ export class FirebaseService {
       documents.push({ ...doc.data(), id: doc.id });
     });
     return documents;
+
+    
   }
+
+   // Método para obtener las asignaturas de Firestore
+   getAsignaturas() {
+    return this.firestore.collection('asignaturas').valueChanges();
+  }
+
+    // Método para eliminar una asignatura por ID
+    eliminarAsignatura(id: string): Promise<void> {
+      return this.firestore.collection('asignaturas').doc(id).delete();
+    }
 }

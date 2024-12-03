@@ -16,11 +16,11 @@
 
   <!-- Acciones rápidas -->
   <div class="quick-actions">
-    <ion-button expand="block" color="primary" routerLink="/profesor/assignments">
+    <ion-button expand="block" color="primary" routerLink="../ver-asignaturas">
       <ion-icon slot="start" name="clipboard-outline"></ion-icon>
       Ver Asignaturas
     </ion-button>
-    <ion-button expand="block" color="secondary" routerLink="/profesor/students">
+    <ion-button expand="block" color="secondary" routerLink="../ver-asistencia-profesor">
       <ion-icon slot="start" name="people-outline"></ion-icon>
       Consultar Estudiantes
     </ion-button>
@@ -44,22 +44,6 @@
         </ion-button>
       </ion-card-content>
     </ion-card>
-
-    <ion-card>
-      <ion-card-header>
-        <ion-card-title>Material de Estudio</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <p>Accede al material de estudio más reciente para enriquecer tu enseñanza.</p>
-        <ion-button expand="full" color="light" routerLink="/profesor/material">
-          Ver Material
-        </ion-button>
-      </ion-card-content>
-    </ion-card>
-  </div>
-
-</ion-content>
-
 <style>
   .profesor-content {
     --background: #f7f7f7;
