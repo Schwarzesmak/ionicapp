@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-title>Bienvenido, Alumno</ion-title>
+    <ion-title>{{ nombreAlumno }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -24,12 +24,9 @@
     Ver asistencia
   </ion-button>
 
-
   <ion-button expand="full" color="tertiary" [routerLink]="'/asistencia-qr'">
     Registrar asistencia con QR
   </ion-button>
-
-
 
   <!-- Apartado de registros (no funcional) -->
   <ion-list>

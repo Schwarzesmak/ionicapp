@@ -1,24 +1,34 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FirebaseService } from '../../services/firebase.service';
 
 @Component({
   selector: 'app-main',
   templateUrl: './main.page.html',
   styleUrls: ['./main.page.scss'],
 })
-export class MainPage {
-  nombreAlumno: string = 'Nombre del Alumno'; // A conectar con Firebase
+export class MainPage implements OnInit {
+  nombreAlumno: string = '';
 
-  constructor() {}
+  constructor(private firebaseService: FirebaseService) {}
 
-  // Método para "Ver asistencia"
-  verAsistencia() {
-    console.log('Navegando a la página de asistencia...');
-    // Aquí iría la lógica para navegar a la página de asistencia
+  async ngOnInit() {
+    await this.cargarNombreUsuario();
   }
 
-  // Método para "Registrar asistencia" con QR
+  async cargarNombreUsuario() {
+    try {
+      const nombre = await this.firebaseService.getAuthenticatedUserName();
+      this.nombreAlumno = nombre ? `Bienvenido, ${nombre}` : 'Bienvenido, Alumno';
+    } catch (error) {
+      console.error('Error al obtener el nombre del usuario:', error);
+    }
+  }
+
+  verAsistencia() {
+    console.log('Navegando a la página de asistencia...');
+  }
+
   registrarAsistencia() {
     console.log('Abriendo lector de QR...');
-    // Aquí iría la lógica para abrir el escáner QR
   }
 }
