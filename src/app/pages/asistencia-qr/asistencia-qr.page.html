@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Registrar Asistencia</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/main"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Escanear Código QR</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <!-- Botón para iniciar el escaneo -->
+      <ion-button expand="full" color="tertiary" (click)="iniciarEscaneo()">
+        Iniciar Escaneo
+      </ion-button>
+
+      <!-- Resultado del escaneo -->
+      <div *ngIf="qrResultado">
+        <ion-label color="primary">
+          <h3>Resultado del escaneo:</h3>
+        </ion-label>
+        <ion-text>{{ qrResultado }}</ion-text>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

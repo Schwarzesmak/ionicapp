@@ -23,6 +23,14 @@ const routes: Routes = [
     path: 'generar-asignaturas',
     loadChildren: () => import('./pages/generar-asignaturas/generar-asignaturas.module').then( m => m.GenerarAsignaturasPageModule)
   },
+  {
+    path: 'ver-asistencia',
+    loadChildren: () => import('./pages/ver-asistencia/ver-asistencia.module').then( m => m.VerAsistenciaPageModule)
+  },
+  {
+    path: 'asistencia-qr',
+    loadChildren: () => import('./pages/asistencia-qr/asistencia-qr.module').then( m => m.AsistenciaQRPageModule)
+  },
 
 ];
 
