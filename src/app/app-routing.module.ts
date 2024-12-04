@@ -39,6 +39,10 @@ const routes: Routes = [
   {
     path: 'ver-asignaturas',
     loadChildren: () => import('./pages/ver-asignaturas/ver-asignaturas.module').then(m => m.VerAsignaturasPageModule)
+  },
+  {
+    path: 'codigo-qr',
+    loadChildren: () => import('./pages/codigo-qr/codigo-qr.module').then(m => m.CodigoQrPageModule)
   }
   
 
