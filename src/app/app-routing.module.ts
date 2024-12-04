@@ -15,25 +15,14 @@ const routes: Routes = [
   {
     path: 'main',
     loadChildren: () => import('./pages/main/main.module').then( m => m.MainPageModule)
-  },  {
+  },
+  {
     path: 'profesor-index',
     loadChildren: () => import('./pages/profesor-index/profesor-index.module').then( m => m.ProfesorIndexPageModule)
   },
   {
     path: 'generar-asignaturas',
     loadChildren: () => import('./pages/generar-asignaturas/generar-asignaturas.module').then( m => m.GenerarAsignaturasPageModule)
-  },
-  {
-    path: 'ver-asignaturas',
-    loadChildren: () => import('./pages/ver-asignaturas/ver-asignaturas.module').then( m => m.VerAsignaturasPageModule)
-  },
-  {
-    path: 'ver-asistencia-profesor',
-    loadChildren: () => import('./pages/ver-asistencia-profesor/ver-asistencia-profesor.module').then( m => m.VerAsistenciaProfesorPageModule)
-  },
-  {
-    path: 'codigo-qr',
-    loadChildren: () => import('./pages/codigo-qr/codigo-qr.module').then( m => m.CodigoQrPageModule)
   },
 
 ];
