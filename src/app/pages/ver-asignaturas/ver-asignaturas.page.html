@@ -1,19 +1,41 @@
-<ion-header>
+<ion-header style="background-color: #3880ff;">
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/profesor-index"></ion-back-button>
+    </ion-buttons>
     <ion-title>Asignaturas</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-list>
-    <ion-item *ngFor="let asignatura of asignaturas">
-      <ion-label>{{ asignatura.nombre }}</ion-label>
-      <ion-button color="danger" (click)="eliminarAsignatura(asignatura.id)">
-        Eliminar
-      </ion-button>
-      <ion-button color="primary" (click)="generarCodigoQR(asignatura)">
-        Generar QR
-      </ion-button>
+    <ion-item *ngFor="let asignatura of asignaturas; let i = index" lines="none">
+      <!-- Estilo de tarjeta con bordes redondeados y color alterno -->
+      <ion-card 
+        [ngStyle]="{ 'background-color': getCardColor(i), 'box-shadow': '0px 4px 10px rgba(0, 0, 0, 0.1)', 'border-radius': '10px' }">
+        
+        <!-- Contenido de la tarjeta -->
+        <ion-card-header>
+          <ion-card-title>{{ asignatura.nombre }}</ion-card-title>
+          <ion-card-subtitle>Profesor: {{ asignatura.profesorNombre }}</ion-card-subtitle>
+        </ion-card-header>
+        
+        <ion-card-content>
+          <ion-buttons>
+            <ion-button color="danger" (click)="eliminarAsignatura(asignatura.id)" shape="round" fill="solid">
+              <ion-icon name="trash"></ion-icon> Eliminar
+            </ion-button>
+            <ion-button 
+              [routerLink]="['/codigo-qr']" 
+              [queryParams]="{ asignaturaId: asignatura.id, profesorId: asignatura.profesorId }" 
+              color="primary" 
+              shape="round" 
+              fill="solid">
+              <ion-icon name="qr-code"></ion-icon> Generar QR
+            </ion-button>
+          </ion-buttons>
+        </ion-card-content>
+      </ion-card>
     </ion-item>
   </ion-list>
 </ion-content>

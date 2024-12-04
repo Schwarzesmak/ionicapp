@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FirebaseService } from 'src/app/services/firebase.service';
-import { ModalController } from '@ionic/angular';
-import { ModalMessageComponent } from 'src/app/shared/components/modal-message/modal-message.component'; // Asegúrate de importar el modal
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-ver-asignaturas',
@@ -9,67 +8,46 @@ import { ModalMessageComponent } from 'src/app/shared/components/modal-message/m
   styleUrls: ['./ver-asignaturas.page.scss'],
 })
 export class VerAsignaturasPage implements OnInit {
-  asignaturas: any[] = [];
+  asignaturas: any[] = []; // Lista de asignaturas
 
-  constructor(
-    private firebaseService: FirebaseService,
-    private modalCtrl: ModalController // Agregar el ModalController para abrir el modal
-  ) {}
+  constructor(private firebaseService: FirebaseService, private router: Router) {}
 
   ngOnInit() {
-    // Obtener las asignaturas desde Firebase
-    this.firebaseService.getAsignaturas().subscribe(asignaturas => {
-      this.asignaturas = asignaturas;
-      console.log(this.asignaturas); // Para verificar si los datos llegan correctamente
+    this.obtenerAsignaturas();
+  }
+
+  // Método para obtener las asignaturas desde Firebase
+  obtenerAsignaturas() {
+    this.firebaseService.getAsignaturas().subscribe((data: any[]) => {
+      this.asignaturas = data;
     });
   }
 
   // Método para eliminar una asignatura
-  eliminarAsignatura(id: string) {
-    this.firebaseService.eliminarAsignatura(id).then(() => {
-      console.log('Asignatura eliminada con éxito');
-      // Vuelve a cargar las asignaturas después de la eliminación
-      this.reloadAsignaturas();
-    }).catch(error => {
-      console.log('Error al eliminar asignatura:', error);
+  eliminarAsignatura(asignaturaId: string) {
+    if (confirm('¿Estás seguro de que deseas eliminar esta asignatura?')) {
+      this.firebaseService.deleteAsignatura(asignaturaId).then(() => {
+        alert('Asignatura eliminada correctamente');
+        this.obtenerAsignaturas(); // Actualiza la lista de asignaturas
+      }).catch((error) => {
+        console.error('Error al eliminar la asignatura:', error);
+        alert('Ocurrió un error al intentar eliminar la asignatura.');
+      });
+    }
+  }
+
+  // Redirigir a la página de generación de QR
+  irAGenerarQR(asignatura: any) {
+    this.router.navigate(['/codigo-qr'], {
+      queryParams: {
+        asignaturaId: asignatura.id,
+        profesorId: asignatura.profesorId,
+      },
     });
   }
 
-  // Método para recargar las asignaturas
-  reloadAsignaturas() {
-    this.firebaseService.getAsignaturas().subscribe(asignaturas => {
-      this.asignaturas = asignaturas;
-    });
+  getCardColor(index: number): string {
+    return index % 2 === 0 ? '#FFEB3B' : '#F44336'; // Amarillo y Rojo
   }
-
-  // Método para generar código QR
-  async generarCodigoQR(asignatura: any) {
-    // Abrir el modal para que el usuario ingrese un mensaje
-    const modal = await this.modalCtrl.create({
-      component: ModalMessageComponent,
-    });
-
-    // Cuando el modal se cierra, obtienes el mensaje que se ingresó
-    modal.onDidDismiss().then((result) => {
-      const mensaje = result.data;
-      if (mensaje) {
-        // Generar el código QR con el ID de la asignatura, el ID del profesor y el mensaje
-        const qrData = {
-          asignaturaId: asignatura.id,
-          profesorId: asignatura.profesorId,  // Asegúrate de que este campo exista en tus datos
-          mensaje: mensaje
-        };
-        // Aquí puedes pasar los datos al componente que genera el QR
-        console.log('QR Data:', qrData); // Verifica si los datos son correctos
-
-        // Después, puedes usar estos datos en tu plantilla HTML
-        // para generar el código QR
-        this.qrCodeData = `Asignatura ID: ${qrData.asignaturaId}, Profesor ID: ${qrData.profesorId}, Mensaje: ${qrData.mensaje}`;
-      }
-    });
-
-    await modal.present();
-  }
-
-  qrCodeData: string = ''; // Aquí se almacenará la cadena que se pasará al QR
+  
 }

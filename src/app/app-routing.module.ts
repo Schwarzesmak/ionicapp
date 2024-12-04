@@ -31,6 +31,10 @@ const routes: Routes = [
     path: 'ver-asistencia-profesor',
     loadChildren: () => import('./pages/ver-asistencia-profesor/ver-asistencia-profesor.module').then( m => m.VerAsistenciaProfesorPageModule)
   },
+  {
+    path: 'codigo-qr',
+    loadChildren: () => import('./pages/codigo-qr/codigo-qr.module').then( m => m.CodigoQrPageModule)
+  },
 
 ];
 

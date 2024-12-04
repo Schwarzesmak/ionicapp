@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-back-button defaultHref="/ver-asignaturas"></ion-back-button>
+    <ion-title>Generar Código QR</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="qrCodeData">
+    <ng-qrcode [qrc-value]="qrCodeData" [qrc-size]="256"></ng-qrcode>
+  </div>
+
+  <ion-item>
+    <ion-label position="floating">Mensaje</ion-label>
+    <ion-input [(ngModel)]="mensaje" placeholder="Escribe un mensaje"></ion-input>
+  </ion-item>
+
+  <ion-button expand="full" (click)="generarQR()">Generar QR</ion-button>
+</ion-content>
