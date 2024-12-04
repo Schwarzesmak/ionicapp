@@ -1,33 +1,74 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import html2canvas from 'html2canvas';
+import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
+import { Share } from '@capacitor/share';
+import { LoadingController, Platform } from '@ionic/angular';
 
 @Component({
-  selector: 'app-codigo-qr',
+  selector: 'app-codigo',
   templateUrl: './codigo-qr.page.html',
   styleUrls: ['./codigo-qr.page.scss'],
 })
-export class CodigoQrPage implements OnInit {
-  qrCodeData: string | null = null;
-  mensaje: string = '';
-  asignaturaId: string | null = null;
-  profesorId: string | null = null;
+export class CodigoPage implements OnInit {
 
-  constructor(private activatedRoute: ActivatedRoute) {}
+  segment = 'generate';
+  qrText = '';
+
+  constructor(
+    private loadingController: LoadingController,
+    private platform: Platform
+  ) { }
+
+  captureScreen() {
+    const element = document.getElementById('qrImage') as HTMLElement;
+
+    html2canvas(element).then((canvas: HTMLCanvasElement) => {
+
+
+      if(this.platform.is('capacitor')) this.shareImage(canvas);
+      else this.downloadImage(canvas);
+    })
+  }
+
+  downloadImage(canvas: HTMLCanvasElement) {
+
+    const link = document.createElement('a');
+    link.href = canvas.toDataURL();
+    link.download = "qr.png";
+    link.click();
+
+  }
+
+
+  async shareImage(canvas: HTMLCanvasElement) {
+
+    let base64 = canvas.toDataURL();
+    let path = "qr.png";
+
+
+  const loading = await this.loadingController.create({spinner: 'crescent'});
+  await loading.present();
+
+    await Filesystem.writeFile({
+      path,
+      data: base64,
+      directory: Directory.Cache,
+    }).then(async(res) => {
+      let uri = res.uri;
+
+
+    await Share.share({url: uri})
+    await Filesystem.deleteFile({
+      path,
+      directory: Directory.Cache
+
+    });
+    }).finally(() =>{
+      loading.dismiss();
+    })
+  }
 
   ngOnInit() {
-    this.activatedRoute.queryParams.subscribe((params) => {
-      this.asignaturaId = params['asignaturaId'];
-      this.profesorId = params['profesorId'];
-    });
   }
 
-  generarQR() {
-    if (this.mensaje && this.asignaturaId && this.profesorId) {
-      this.qrCodeData = JSON.stringify({
-        asignaturaId: this.asignaturaId,
-        profesorId: this.profesorId,
-        mensaje: this.mensaje,
-      });
-    }
-  }
 }

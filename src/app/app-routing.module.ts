@@ -42,11 +42,11 @@ const routes: Routes = [
   },
   {
     path: 'codigo-qr',
-    loadChildren: () => import('./pages/codigo-qr/codigo-qr.module').then(m => m.CodigoQrPageModule)
+    loadChildren: () => import('./pages/codigo-qr/codigo-qr.module').then(m => m.CodigoPageModule)
   }
-  
 
-  
+
+
 ];
 
 @NgModule({
