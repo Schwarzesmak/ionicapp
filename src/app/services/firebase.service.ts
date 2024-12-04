@@ -117,6 +117,17 @@ export class FirebaseService {
     }
     return null;
   }
+
+  // Obtener el nombre del usuario autenticado
+  async getAuthenticatedUserName(): Promise<string | null> {
+    const currentUser = getAuth().currentUser;
+    if (currentUser && currentUser.displayName) {
+      return currentUser.displayName;
+    } else if (currentUser) {
+      return currentUser.email; // Si no tiene nombre, mostrar el email
+    }
+    return null;
+  }
 }
 
 
