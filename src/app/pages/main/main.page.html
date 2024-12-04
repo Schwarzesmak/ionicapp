@@ -1,11 +1,21 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-title>{{ nombreAlumno }}</ion-title>
+    <ion-buttons slot="end">
+      <!-- Botón de Perfil -->
+      <ion-button [routerLink]="'/perfil-alumno'">
+        <ion-icon name="person" size="large"></ion-icon>
+      </ion-button>
+      <!-- Botón de Cerrar Sesión -->
+      <ion-button (click)="cerrarSesion()">
+        <ion-icon name="exit" size="large"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <!-- Sección de perfil mejorada -->
+  <!-- Sección de perfil -->
   <div class="profile-section d-flex-center">
     <ion-card class="profile-card">
       <ion-avatar class="profile-avatar">
@@ -20,15 +30,15 @@
   </div>
 
   <!-- Botones de acciones -->
-  <ion-button expand="full" color="secondary" [routerLink]="'/ver-asistencia'">
+  <ion-button expand="full" color="secondary" (click)="verAsistencia()">
     Ver asistencia
   </ion-button>
 
-  <ion-button expand="full" color="tertiary" [routerLink]="'/asistencia-qr'">
+  <ion-button expand="full" color="tertiary" (click)="registrarAsistencia()">
     Registrar asistencia con QR
   </ion-button>
 
-  <!-- Apartado de registros (no funcional) -->
+  <!-- Apartado de registros -->
   <ion-list>
     <ion-item lines="none">
       <ion-label>

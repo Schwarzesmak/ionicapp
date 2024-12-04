@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { FirebaseService } from '../../services/firebase.service';
 
 @Component({
@@ -9,7 +10,7 @@ import { FirebaseService } from '../../services/firebase.service';
 export class MainPage implements OnInit {
   nombreAlumno: string = '';
 
-  constructor(private firebaseService: FirebaseService) {}
+  constructor(private firebaseService: FirebaseService, private router: Router) {}
 
   async ngOnInit() {
     await this.cargarNombreUsuario();
@@ -25,10 +26,23 @@ export class MainPage implements OnInit {
   }
 
   verAsistencia() {
-    console.log('Navegando a la página de asistencia...');
+    this.router.navigate(['/ver-asistencia']); // Navega a la página de asistencia
   }
 
   registrarAsistencia() {
-    console.log('Abriendo lector de QR...');
+    this.router.navigate(['/asistencia-qr']); // Navega al lector de QR
   }
-}
+
+  cerrarSesion() {
+    this.firebaseService.logout()
+      .then(() => {
+        console.log('Sesión cerrada');
+        this.router.navigate(['/auth']);
+      })
+      .catch(error => {
+        console.error('Error al cerrar sesión:', error);
+      });
+  }
+  
+  }
+

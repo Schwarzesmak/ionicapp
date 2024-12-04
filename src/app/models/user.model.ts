@@ -1,9 +1,8 @@
 export interface User {
-  uid: string;
   email: string;
   password: string;
   name: string;
-  role: string; // Agrega el campo role
-  subject?: string;  // solo si es profesor
-
+  lastname: string;
+  role: string;  // Campo de rol (por ejemplo: 'alumno', 'profesor', etc.)
+  subject?: string;  // Solo si es profesor
 }
