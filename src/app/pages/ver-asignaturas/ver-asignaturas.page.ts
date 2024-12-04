@@ -18,7 +18,7 @@ export class VerAsignaturasPage implements OnInit {
 
   // Método para obtener las asignaturas desde Firebase
   obtenerAsignaturas() {
-    this.firebaseService.getAsignaturas().subscribe((data: any[]) => {
+    this.firebaseService.getCollection('asignaturas').then((data: any[]) => {
       this.asignaturas = data;
     });
   }
@@ -41,7 +41,8 @@ export class VerAsignaturasPage implements OnInit {
     this.router.navigate(['/codigo-qr'], {
       queryParams: {
         asignaturaId: asignatura.id,
-        profesorId: asignatura.profesorId,
+        nombre: asignatura.nombre,
+        profesor: asignatura.profesor // Aquí pasamos el nombre del profesor
       },
     });
   }
@@ -49,5 +50,4 @@ export class VerAsignaturasPage implements OnInit {
   getCardColor(index: number): string {
     return index % 2 === 0 ? '#FFEB3B' : '#F44336'; // Amarillo y Rojo
   }
-  
 }
