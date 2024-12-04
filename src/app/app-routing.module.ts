@@ -39,15 +39,16 @@ const routes: Routes = [
   },
   {
     path: 'codigo-qr',
+    loadChildren: () => import('./pages/codigo-qr/codigo-qr.module').then(m => m.CodigoPageModule)
     loadChildren: () => import('./pages/codigo-qr/codigo-qr.module').then(m => m.CodigoQrPageModule)
-  },  {
+  },
+  {
     path: 'escaneo',
     loadChildren: () => import('./pages/escaneo/escaneo.module').then( m => m.EscaneoPageModule)
   }
-
   
 
-  
+
 ];
 
 @NgModule({
