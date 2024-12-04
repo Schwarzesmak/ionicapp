@@ -23,18 +23,23 @@ export class VerAsignaturasPage implements OnInit {
     });
   }
 
-  // Método para eliminar una asignatura
-  eliminarAsignatura(asignaturaId: string) {
-    if (confirm('¿Estás seguro de que deseas eliminar esta asignatura?')) {
-      this.firebaseService.deleteAsignatura(asignaturaId).then(() => {
-        alert('Asignatura eliminada correctamente');
-        this.obtenerAsignaturas(); // Actualiza la lista de asignaturas
-      }).catch((error) => {
-        console.error('Error al eliminar la asignatura:', error);
-        alert('Ocurrió un error al intentar eliminar la asignatura.');
-      });
-    }
+// Método para eliminar una asignatura
+eliminarAsignatura(asignaturaId: string) {
+  if (confirm('¿Estás seguro de que deseas eliminar esta asignatura?')) {
+    this.firebaseService.deleteAsignatura(asignaturaId).then(() => {
+      console.log('Asignatura eliminada de Firestore correctamente');
+      this.obtenerAsignaturas();  // Vuelve a obtener las asignaturas
+      alert('Asignatura eliminada correctamente');
+    }).catch((error) => {
+      console.error('Error al eliminar la asignatura:', error);
+      alert('Ocurrió un error al intentar eliminar la asignatura.');
+    });
   }
+}
+
+
+
+
 
   // Redirigir a la página de generación de QR
   irAGenerarQR(asignatura: any) {

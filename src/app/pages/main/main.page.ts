@@ -30,7 +30,7 @@ export class MainPage implements OnInit {
   }
 
   registrarAsistencia() {
-    this.router.navigate(['/asistencia-qr']); // Navega al lector de QR
+    this.router.navigate(['/escaneo']); // Navega al lector de QR
   }
 
   cerrarSesion() {

@@ -15,6 +15,7 @@ export class GenerarAsignaturasPage implements OnInit {
     this.asignaturaForm = new FormGroup({
       nombre: new FormControl('', [Validators.required]),
       descripcion: new FormControl('', [Validators.required]),
+      cantidadclases: new FormControl('', [Validators.required]),
       // Añade otros campos según sea necesario
     });
   }
@@ -28,7 +29,7 @@ export class GenerarAsignaturasPage implements OnInit {
       const asignatura: Asignatura = this.asignaturaForm.value;
 
       // Llamar al servicio para guardar la asignatura en la base de datos
-      this.firebaseService.setDocument('asignaturas/' + asignatura.nombre, asignatura)
+      this.firebaseService.addDocumentToCollection('asignaturas', asignatura)  // Cambié aquí a `addDocumentToCollection`
         .then(() => {
           console.log('Asignatura guardada con éxito');
           // Resetear el formulario después de guardar
