@@ -15,7 +15,8 @@ const routes: Routes = [
   {
     path: 'main',
     loadChildren: () => import('./pages/main/main.module').then( m => m.MainPageModule)
-  },  {
+  },
+  {
     path: 'profesor-index',
     loadChildren: () => import('./pages/profesor-index/profesor-index.module').then( m => m.ProfesorIndexPageModule)
   },
@@ -34,6 +35,14 @@ const routes: Routes = [
   {
     path: 'codigo-qr',
     loadChildren: () => import('./pages/codigo-qr/codigo-qr.module').then( m => m.CodigoQrPageModule)
+  },
+    {
+    path: 'ver-asistencia',
+    loadChildren: () => import('./pages/ver-asistencia/ver-asistencia.module').then( m => m.VerAsistenciaPageModule)
+  },
+  {
+    path: 'asistencia-qr',
+    loadChildren: () => import('./pages/asistencia-qr/asistencia-qr.module').then( m => m.AsistenciaQRPageModule)
   },
 
 ];

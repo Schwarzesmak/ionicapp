@@ -1,0 +1,17 @@
+ion-card {
+  --border-radius: 15px;
+}
+
+ion-item {
+  --border-radius: 10px;
+  margin-bottom: 8px;
+}
+
+ion-label h2 {
+  font-weight: bold;
+  color: var(--ion-color-primary);
+}
+
+ion-label p {
+  color: var(--ion-color-medium);
+}
