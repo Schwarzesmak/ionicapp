@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Barcode, BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
 import { NavController } from '@ionic/angular';
-import { FirebaseService } from 'src/app/services/firebase.service';
 
 @Component({
   selector: 'app-escaneo',
@@ -13,15 +12,12 @@ export class EscaneoPage implements OnInit {
   currentUser: any = null;
 
   constructor(
-    private navCtrl: NavController,
-    private firebaseService: FirebaseService
+    private navCtrl: NavController
   ) {}
 
   ngOnInit() {
     // Obtener el usuario autenticado
-    this.firebaseService.getUsuarioLogueado().then((user) => {
-      this.currentUser = user;
-    });
+    this.currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
   }
 
   async scan(): Promise<void> {
@@ -34,7 +30,7 @@ export class EscaneoPage implements OnInit {
       const scannedData = barcodes[0].displayValue;
 
       // Extraer los datos del QR (suponiendo un formato predefinido)
-      const asignaturaMatch = scannedData.match(/Asignatura: (.*?)ID:/);
+      const asignaturaMatch = scannedData.match(/Asignatura: (.*?)\n/);
       const profesorMatch = scannedData.match(/Profesor: (.*)/);
 
       const nombreAsignatura = asignaturaMatch ? asignaturaMatch[1].trim() : null;
@@ -44,14 +40,19 @@ export class EscaneoPage implements OnInit {
       if (this.currentUser && nombreAsignatura && nombreProfesor) {
         const nombreAlumno = this.currentUser.name;
 
+        // Almacenar los datos en localStorage
+        localStorage.setItem('asistencia', JSON.stringify({
+          nombreAsignatura,
+          nombreProfesor,
+          nombreAlumno,
+          fecha: new Date().toLocaleDateString(),
+          hora: new Date().toLocaleTimeString()
+        }));
+
         // Redirigir a la página de confirmación de asistencia
-        this.navCtrl.navigateForward('/confirm-asistencia', {
-          queryParams: {
-            nombreAsignatura,
-            nombreProfesor,
-            nombreAlumno,
-          },
-        });
+        this.navCtrl.navigateForward('/confirm-asistencia');
+      } else {
+        console.log('Faltan datos o el usuario no está logueado.');
       }
     }
   }
