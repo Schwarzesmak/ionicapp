@@ -1,16 +1,15 @@
-<ion-header>
+<ion-header class="custom-header">
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/home"></ion-back-button> <!-- Si quieres el botón de volver atrás -->
-    </ion-buttons>
     <ion-title>Bienvenido Profesor</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="cerrarSesion()" color="danger">
-        <ion-icon name="log-out-outline"></ion-icon>
+      <ion-button (click)="cerrarSesion()" color="danger" slot="end">
+        <ion-icon name="log-out-outline" class="large-icon"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
+
+
 
 <ion-content class="profesor-content">
   <!-- Banner -->
@@ -33,7 +32,7 @@
 
   <ion-button expand="block" color="secondary" routerLink="../ver-asistencia-profesor">
     <ion-icon slot="start" name="people-outline"></ion-icon>
-    Consultar Estudiantes
+    Ver asistencia Alumnos
   </ion-button>
   <ion-button expand="block" color="tertiary" routerLink="../generar-asignaturas">
     <ion-icon slot="start" name="school-outline"></ion-icon>

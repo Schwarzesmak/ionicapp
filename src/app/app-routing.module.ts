@@ -44,6 +44,10 @@ const routes: Routes = [
   {
     path: 'escaneo',
     loadChildren: () => import('./pages/escaneo/escaneo.module').then( m => m.EscaneoPageModule)
+  },
+  {
+    path: 'ver-asistencia-profesor',
+    loadChildren: () => import('./pages/ver-asistencia-profesor/ver-asistencia-profesor.module').then( m => m.VerAsistenciaProfesorPageModule)
   }
   
 

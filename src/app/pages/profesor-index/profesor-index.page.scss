@@ -13,3 +13,28 @@ p {
   color: #777;
   margin-bottom: 20px;
 }
+
+.large-icon {
+  font-size: 2rem; /* Ajusta el tamaño según tus necesidades */
+}
+
+.custom-header {
+  --background: #003366; /* Azul oscuro */
+  height: 70px; /* Tamaño moderado del header */
+}
+
+.custom-header ion-toolbar {
+  --background: #003366; /* Fondo azul oscuro del toolbar */
+  height: 70px; /* Altura moderada */
+}
+
+.custom-header ion-title {
+  font-size: 1.5rem; /* Tamaño del texto ligeramente más grande */
+  font-weight: bold;
+  color: #fff; /* Texto blanco para un buen contraste */
+}
+
+.large-icon {
+  font-size: 1.5rem; /* Tamaño del icono ligeramente más grande */
+}
+
