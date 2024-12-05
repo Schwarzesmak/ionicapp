@@ -51,7 +51,7 @@ const routes: Routes = [
   },
   {
     path: 'confirm-asistencia',
-    loadChildren: () => import('./confirm-asistencia/confirm-asistencia.module').then( m => m.ConfirmAsistenciaPageModule)
+    loadChildren: () => import('./pages/confirm-asistencia/confirm-asistencia.module').then( m => m.ConfirmAsistenciaPageModule)
   }
 
 
