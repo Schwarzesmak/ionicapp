@@ -20,6 +20,7 @@ export class VerAsistenciaProfesorPage implements OnInit {
   async obtenerAlumnos() {
     try {
       this.alumnos = await this.firebaseService.getAlumnos();  // Llamamos al servicio para obtener los alumnos
+      console.log(this.alumnos);  // Verifica los datos obtenidos
     } catch (error) {
       console.error('Error al obtener los alumnos:', error);
     }

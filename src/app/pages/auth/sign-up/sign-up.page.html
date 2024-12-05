@@ -63,17 +63,6 @@
         <div *ngIf="form.controls.password.errors?.['required']"> La Contraseña es requerida </div>
       </div>
 
-      <!-- Asignatura (Solo habilitado si es profesor) -->
-      <ion-item *ngIf="form.controls.role.value === 'profesor'">
-        <ion-label>Asignatura</ion-label>
-        <ion-select [formControl]="form.controls.subject">
-          <ion-select-option value="programacion">Programación</ion-select-option>
-          <ion-select-option value="base-datos">Base de Datos</ion-select-option>
-          <ion-select-option value="etica-trabajo">Ética para el Trabajo</ion-select-option>
-          <ion-select-option value="programacion-movil">Programación Móvil</ion-select-option>
-        </ion-select>
-      </ion-item>
-
       <ion-button expand="block" mode="ios" class="submit" type="submit" [disabled]="form.invalid">
         Registrar
         <ion-icon slot="end" name="person-add-outline"></ion-icon>

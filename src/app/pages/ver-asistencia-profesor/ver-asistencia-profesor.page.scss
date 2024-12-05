@@ -1,0 +1,75 @@
+custom-header {
+    --background: #003366; /* Azul oscuro */
+    height: 70px; /* Tamaño moderado del header */
+  }
+  
+  .custom-header ion-toolbar {
+    --background: #003366; /* Fondo azul oscuro del toolbar */
+    height: 70px; /* Altura moderada */
+  }
+  
+  .custom-header ion-title {
+    font-size: 1.5rem; /* Tamaño del texto ligeramente más grande */
+    font-weight: bold;
+    color: #fff; /* Texto blanco para un buen contraste */
+  }
+  
+  .large-icon {
+    font-size: 1.5rem; /* Tamaño del icono ligeramente más grande */
+  }
+  
+  .custom-header ion-back-button {
+    color: white; /* Flecha de retroceso en blanco */
+  }
+
+  /* Estilos generales */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  th {
+    background-color: #f8f8f8;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  td {
+    background-color: #fff;
+    color: #666;
+  }
+  
+  /* Estilos para las celdas de acciones */
+  td ion-button {
+    --background: #3880ff;
+    --color: white;
+    --border-radius: 10px;
+  }
+  
+  /* Filtro visual para filas impares */
+  tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+  }
+  
+  /* Hover effect para las filas */
+  tbody tr:hover {
+    background-color: #f1f1f1;
+    cursor: pointer;
+  }
+  
+  .students-table {
+    width: 100%;
+    table-layout: fixed;
+  }
+  
+  .table-container {
+    padding: 15px;
+  }
+  
