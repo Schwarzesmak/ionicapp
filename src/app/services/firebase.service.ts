@@ -3,7 +3,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, sendPasswordResetEmail } from 'firebase/auth';
 import { User } from '../models/user.model';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { getFirestore, setDoc, doc, getDoc, collection, addDoc, query, where, getDocs } from '@angular/fire/firestore';
+import { getFirestore, setDoc, doc, getDoc, collection, addDoc, query, where, getDocs } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 @Injectable({
@@ -84,9 +84,11 @@ export class FirebaseService {
     return documents;
   }
 
-  // Método para obtener las asignaturas de Firestore
-  getAsignaturas() {
-    return this.firestore.collection('asignaturas').valueChanges();
+  // Método para obtener los estudiantes (anteriormente alumnos)
+  async getAlumnos() {
+    // Cambié el valor del filtro a 'estudiante'
+    const alumnos = await this.getFilteredDocuments('users', 'role', 'estudiante');
+    return alumnos;
   }
 
   // Eliminar una asignatura por ID
@@ -171,13 +173,4 @@ export class FirebaseService {
       throw error;
     }
   }
- //// LO QUE QUIERO HACER Y PRETENDO SER
-
-
- // En el servicio FirebaseService (firebase.service.ts)
-async getAlumnos() {
-  const alumnos = await this.getFilteredDocuments('users', 'rol', 'alumno');
-  return alumnos;
-}
-
 }
