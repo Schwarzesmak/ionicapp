@@ -171,5 +171,13 @@ export class FirebaseService {
       throw error;
     }
   }
+ //// LO QUE QUIERO HACER Y PRETENDO SER
+
+
+ // En el servicio FirebaseService (firebase.service.ts)
+async getAlumnos() {
+  const alumnos = await this.getFilteredDocuments('users', 'rol', 'alumno');
+  return alumnos;
+}
 
 }

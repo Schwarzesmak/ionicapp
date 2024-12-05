@@ -1,13 +1,24 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>ver-asistencia-profesor</ion-title>
+    <ion-title>Ver Asistencia Profesor</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">ver-asistencia-profesor</ion-title>
+      <ion-title size="large">Lista de Alumnos</ion-title>
     </ion-toolbar>
   </ion-header>
+
+  <!-- Listado de alumnos -->
+  <ion-list>
+    <ion-item *ngFor="let alumno of alumnos">
+      <ion-label (click)="verDetalles(alumno)">
+        <h2>{{ alumno.nombre }} {{ alumno.apellido }}</h2>
+        <p>Email: {{ alumno.email }}</p>
+        <p>Fecha de inscripción: {{ alumno.fechaInscripcion }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>
