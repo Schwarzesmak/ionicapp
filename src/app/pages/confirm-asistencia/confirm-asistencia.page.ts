@@ -39,11 +39,11 @@ export class ConfirmAsistenciaPage implements OnInit {
 
   confirmarAsistencia() {
     // Validar que no falten datos importantes
-    if (!this.nombreAsignatura || !this.nombreAlumno || !this.nombreProfesor || !this.fecha || !this.hora || !this.usuario.name || !this.usuario.lastname) {
+    if (!this.nombreAsignatura) {
       console.error('Faltan datos para confirmar la asistencia.');
       return;
     }
-
+//  || !this.nombreAlumno || !this.nombreProfesor || !this.fecha || !this.hora || !this.usuario.name || !this.usuario.lastname
     // Crear el objeto de asistencia
     const asistencia: Asistencia = {
       profesorNombre: this.nombreProfesor.split(' ')[0] || '',  // Nombre del profesor
