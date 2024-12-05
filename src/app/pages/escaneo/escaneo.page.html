@@ -1,9 +1,6 @@
-<ion-header>
-  <ion-toolbar color="primary">
-    <ion-title></ion-title>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/main"></ion-back-button>
-    </ion-buttons>
+<ion-header [translucent]="true">
+  <ion-toolbar color="light">
+    <ion-title text-center>RegistrAPP</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -31,7 +28,7 @@
 
   <!-- Botón de Escaneo en el Centro -->
   <div class="scan-button-container">
-    <ion-button color="primary" expand="block" shape="round" (click)="scan()">
+    <ion-button color="primary" expand="block" shape="round" (click)="scan()" [disabled]="!isSupported">
       <ion-icon name="scan" slot="start"></ion-icon>
       Escanear Código
     </ion-button>

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Barcode, BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
-import { NavController } from '@ionic/angular';
-import { FirebaseService } from 'src/app/services/firebase.service';
+import { AlertController, NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-escaneo',
@@ -9,61 +8,43 @@ import { FirebaseService } from 'src/app/services/firebase.service';
   styleUrls: ['./escaneo.page.scss'],
 })
 export class EscaneoPage implements OnInit {
+  isSupported = false;
   barcodes: Barcode[] = [];
-  currentUser: any = null;
 
-  constructor(
-    private navCtrl: NavController,
-    private firebaseService: FirebaseService
-  ) {}
+  constructor(private alertController: AlertController, private navCtrl: NavController) { }
 
   ngOnInit() {
-    // Obtener el usuario autenticado
-    this.firebaseService.getUsuarioLogueado().then((user) => {
-      this.currentUser = user;
+    BarcodeScanner.isSupported().then((result) => {
+      this.isSupported = result.supported;
     });
   }
 
   async scan(): Promise<void> {
-    // Escanear el código QR
+    const granted = await this.requestPermissions();
+    if (!granted) {
+      this.presentAlert();
+      return;
+    }
     const { barcodes } = await BarcodeScanner.scan();
     this.barcodes.push(...barcodes);
 
-    // Si se escaneó un código QR
-    if (barcodes.length > 0) {
-      const scannedData = barcodes[0].displayValue;
+    // Redirige a la página de confirmación de asistencia después de escanear
+    this.navCtrl.navigateForward('/confirm-asistencia');
+  }
 
-      // Extraer los datos del QR (suponiendo un formato predefinido)
-      const asignaturaMatch = scannedData.match(/Asignatura: (.*?)ID:/);
-      const profesorMatch = scannedData.match(/Profesor: (.*)/);
+  async requestPermissions(): Promise<boolean> {
+    console.log("Solicitando permisos de cámara...");
+    const { camera } = await BarcodeScanner.requestPermissions();
+    console.log("Permiso de cámara:", camera);
+    return camera === 'granted' || camera === 'limited';
+  }
 
-      const nombreAsignatura = asignaturaMatch ? asignaturaMatch[1].trim() : null;
-      const nombreProfesor = profesorMatch ? profesorMatch[1].trim() : null;
-
-      // Si el usuario está logueado y los datos del QR son correctos
-      if (this.currentUser && nombreAsignatura && nombreProfesor) {
-        const nombreAlumno = this.currentUser.name;
-
-        // Guardar los datos en localStorage
-        localStorage.setItem('asistencia', JSON.stringify({
-          nombreAsignatura,
-          nombreProfesor,
-          nombreAlumno,
-          fecha: new Date().toLocaleDateString(),
-          hora: new Date().toLocaleTimeString(),
-        }));
-
-        // Guardar la información del usuario logueado
-        localStorage.setItem('currentUser', JSON.stringify({
-          name: this.currentUser.name,
-          lastname: this.currentUser.lastname
-        }));
-
-        // Redirigir a la página de confirmación de asistencia
-        this.navCtrl.navigateForward('/confirm-asistencia');
-      } else {
-        console.error('Datos faltantes o usuario no logueado.');
-      }
-    }
+  async presentAlert(): Promise<void> {
+    const alert = await this.alertController.create({
+      header: 'Permiso denegado',
+      message: 'Para usar la aplicación autorizar los permisos de cámara',
+      buttons: ['OK'],
+    });
+    await alert.present();
   }
 }
