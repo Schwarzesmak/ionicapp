@@ -1,15 +1,44 @@
+/* Mejoras para las tarjetas de asignaturas */
 ion-card {
-  margin: 10px;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 10px 0; /* Márgenes para separación entre tarjetas */
+  border-radius: 12px; /* Bordes redondeados */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Sombra sutil */
 }
 
+/* Estilo del título de la asignatura */
 .asignatura-titulo {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   font-weight: bold;
   color: #333;
+  text-align: center;
+}
+
+/* Estilo del subtítulo (Profesor) */
+.profesor-subtitle {
+  font-size: 1.1rem;
+  color: #666;
+  text-align: center;
+  margin-top: 5px;
+}
+
+/* Estilo de los botones (eliminar y generar QR) */
+.action-btn {
+  margin-right: 10px;
+  border-radius: 25px;
+  min-width: 150px;
+  text-align: center;
 }
 
 ion-footer {
   margin-top: 20px;
+}
+
+/* Estilo para el contenido del botón cuando está deshabilitado */
+ion-button:disabled {
+  opacity: 0.5;
+}
+
+/* Estilo del contenido al pasar el mouse (hover) en las tarjetas */
+ion-card:hover {
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
