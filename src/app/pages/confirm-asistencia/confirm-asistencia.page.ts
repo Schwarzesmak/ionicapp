@@ -51,7 +51,7 @@ export class ConfirmAsistenciaPage implements OnInit {
     }
 
     // Crear el objeto de asistencia
-    const asistencia = {
+    const asistencia: Asistencia = {
       profesorNombre: this.nombreProfesor.split(' ')[0] || '', // Nombre del profesor
       profesorApellido: this.nombreProfesor.split(' ')[1] || '', // Apellido del profesor
       alumnoNombre: this.usuario.name || '', // Nombre del alumno desde Firebase
@@ -61,20 +61,24 @@ export class ConfirmAsistenciaPage implements OnInit {
       hora: this.hora || new Date().toLocaleTimeString(), // Hora actual si no hay valor en localStorage
     };
 
-    // Guardar la asistencia en Firebase
-    this.firebaseService
-      .addDocumentToCollection('asistencias', asistencia)
-      .then(() => {
-        console.log('Asistencia registrada correctamente.');
+    try {
+      // Guardar la asistencia en Firebase (colección 'asistencias')
+      await this.firebaseService.addDocumentToCollection('asistencias', asistencia);
+      console.log('Asistencia registrada correctamente.');
 
-        // Después de guardar en Firebase, eliminamos los datos de localStorage
-        localStorage.removeItem('asistencia');
-
-        // Redirigir a la página principal
-        this.navCtrl.navigateRoot('/main'); // Reemplaza '/main' si tienes otro path
-      })
-      .catch((error) => {
-        console.error('Error al registrar la asistencia:', error);
+      // Actualizar el registro del alumno para marcarlo como "Presente"
+      const alumnoId = this.usuario.id; // Suponiendo que 'id' es el ID único del alumno
+      await this.firebaseService.updateDocument(`users/${alumnoId}`, {
+        presente: asistencia.fecha, // Actualiza el campo "presente" con la fecha de asistencia
       });
+
+      // Después de guardar en Firebase, eliminamos los datos de localStorage
+      localStorage.removeItem('asistencia');
+
+      // Redirigir a la página principal
+      this.navCtrl.navigateRoot('/main'); // Reemplaza '/main' si tienes otro path
+    } catch (error) {
+      console.error('Error al registrar la asistencia:', error);
+    }
   }
 }
