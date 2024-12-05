@@ -73,3 +73,22 @@ ion-content {
 ion-page {
   background-color: #ffffff !important;
 }
+
+.custom-header ion-toolbar {
+  --background: #003366; /* Fondo azul oscuro del toolbar */
+  height: 70px; /* Altura moderada */
+}
+
+.custom-header ion-title {
+  font-size: 1.5rem; /* Tamaño del texto ligeramente más grande */
+  font-weight: bold;
+  color: #fff; /* Texto blanco para un buen contraste */
+}
+
+.large-icon {
+  font-size: 1.5rem; /* Tamaño del icono ligeramente más grande */
+}
+
+.custom-header ion-back-button {
+  color: white; /* Flecha de retroceso en blanco */
+}
