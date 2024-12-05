@@ -11,7 +11,6 @@ import { NavController } from '@ionic/angular'; // Importa NavController
 export class ConfirmAsistenciaPage implements OnInit {
   nombreAsignatura: string = '';
   nombreProfesor: string = '';
-  nombreAlumno: string = '';
   fecha: string = '';
   hora: string = '';
   usuario: any = {}; // Para los datos del usuario logueado
@@ -21,29 +20,32 @@ export class ConfirmAsistenciaPage implements OnInit {
     private navCtrl: NavController // Inyectar NavController correctamente
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     // Cargar los datos de asistencia desde localStorage
     const asistencia = JSON.parse(localStorage.getItem('asistencia') || '{}');
     if (asistencia && Object.keys(asistencia).length > 0) {
       this.nombreAsignatura = asistencia.nombreAsignatura || '';
       this.nombreProfesor = asistencia.nombreProfesor || '';
-      this.nombreAlumno = asistencia.nombreAlumno || '';
       this.fecha = asistencia.fecha || '';
       this.hora = asistencia.hora || '';
     } else {
       console.warn('No se encontraron datos de asistencia en localStorage.');
     }
 
-    // Cargar los datos del usuario desde localStorage
-    this.usuario = JSON.parse(localStorage.getItem('currentUser') || '{}');
-    if (!this.usuario.name || !this.usuario.lastname) {
-      console.warn('Información del usuario no encontrada en localStorage.');
+    // Cargar los datos del usuario logueado desde Firebase
+    try {
+      this.usuario = await this.firebaseService.getUsuarioLogueado();
+      if (!this.usuario) {
+        console.warn('No se pudo obtener la información del usuario logueado.');
+      }
+    } catch (error) {
+      console.error('Error al cargar el usuario logueado:', error);
     }
   }
 
-  confirmarAsistencia() {
+  async confirmarAsistencia() {
     // Validar que no falten datos importantes
-    if (!this.nombreAsignatura || !this.nombreAlumno || !this.nombreProfesor) {
+    if (!this.nombreAsignatura || !this.nombreProfesor) {
       console.error('Faltan datos para confirmar la asistencia.');
       return;
     }
@@ -52,11 +54,11 @@ export class ConfirmAsistenciaPage implements OnInit {
     const asistencia: Asistencia = {
       profesorNombre: this.nombreProfesor.split(' ')[0] || '', // Nombre del profesor
       profesorApellido: this.nombreProfesor.split(' ')[1] || '', // Apellido del profesor
-      alumnoNombre: this.nombreAlumno.split(' ')[0] || '', // Nombre del alumno
-      alumnoApellido: this.nombreAlumno.split(' ')[1] || '', // Apellido del alumno
+      alumnoNombre: this.usuario.name || '', // Nombre del alumno desde Firebase
+      alumnoApellido: this.usuario.lastname || '', // Apellido del alumno desde Firebase
       asignaturaNombre: this.nombreAsignatura, // Nombre de la asignatura
-      fecha: this.fecha, // Fecha
-      hora: this.hora, // Hora
+      fecha: this.fecha || new Date().toISOString().split('T')[0], // Fecha actual si no hay valor en localStorage
+      hora: this.hora || new Date().toLocaleTimeString(), // Hora actual si no hay valor en localStorage
     };
 
     // Guardar la asistencia en Firebase
@@ -67,7 +69,6 @@ export class ConfirmAsistenciaPage implements OnInit {
 
         // Después de guardar en Firebase, eliminamos los datos de localStorage
         localStorage.removeItem('asistencia');
-        localStorage.removeItem('currentUser');
 
         // Redirigir a la página principal
         this.navCtrl.navigateRoot('/main'); // Reemplaza '/main' si tienes otro path
