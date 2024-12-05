@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from 'src/app/models/user.model';  // Asegúrate de tener esta interfaz
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { UtilsService } from 'src/app/services/utils.service';
+import { Router } from '@angular/router';  // Importar el Router
 
 @Component({
   selector: 'app-sign-up',
@@ -10,7 +11,11 @@ import { UtilsService } from 'src/app/services/utils.service';
   styleUrls: ['./sign-up.page.scss'],
 })
 export class SignUpPage implements OnInit {
-  constructor() {}
+  constructor(
+    private router: Router,  // Inyectar el Router
+    private firebaseSvc: FirebaseService,
+    private utilSvc: UtilsService
+  ) {}
 
   form = new FormGroup({
     uid: new FormControl(''),
@@ -21,9 +26,6 @@ export class SignUpPage implements OnInit {
     role: new FormControl(''),  // Deja el valor inicial vacío
     subject: new FormControl({ value: '', disabled: true }),
   });
-
-  firebaseSvc = inject(FirebaseService);
-  utilSvc = inject(UtilsService);
 
   ngOnInit() {
     this.form.controls.role.valueChanges.subscribe(role => {
@@ -98,7 +100,7 @@ export class SignUpPage implements OnInit {
 
       this.firebaseSvc.setDocument(path, this.form.value).then(async res => {
         this.utilSvc.saveInLocalStorage('user', this.form.value);
-        this.utilSvc.routerLink('/profesor-index');
+        this.router.navigate(['/auth']);  // Redirigir a la página de login
         this.form.reset();
       }).catch(error => {
         console.log(error);

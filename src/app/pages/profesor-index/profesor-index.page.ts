@@ -27,4 +27,5 @@ export class ProfesorIndexPage implements OnInit {
       alert('Hubo un problema al cerrar sesión.');
     });
   }
+
 }
