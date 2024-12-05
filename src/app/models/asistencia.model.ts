@@ -2,7 +2,6 @@ export interface Asistencia {
   profesorNombre: string; // Nombre del profesor
   profesorApellido: string; // Apellido del profesor
 
-  alumnouid:string
   alumnoNombre: string;   // Nombre del alumno
   alumnoApellido: string; // Apellido del alumno
 
