@@ -40,7 +40,6 @@ const routes: Routes = [
   {
     path: 'codigo-qr',
     loadChildren: () => import('./pages/codigo-qr/codigo-qr.module').then(m => m.CodigoPageModule)
-    loadChildren: () => import('./pages/codigo-qr/codigo-qr.module').then(m => m.CodigoQrPageModule)
   },
   {
     path: 'escaneo',
