@@ -29,8 +29,15 @@ export class AuthPage implements OnInit {
         this.getUserInfo(res.user.uid);
       }).catch(error => {
         console.log(error);
+
+        // Verificar el código de error y personalizar el mensaje
+        let errorMessage = 'Error de usuario o contraseña'; // Mensaje por defecto
+        if (error.code === 'auth/invalid-credential') {
+          errorMessage = 'Los datos ingresados no son validos';
+        }
+
         this.utilSvc.presentToast({
-          message: error.message,
+          message: errorMessage,
           duration: 2500,
           color: 'primary',
           position: 'middle',
@@ -41,6 +48,7 @@ export class AuthPage implements OnInit {
       });
     }
   }
+
 
   async getUserInfo(uid: string) {
     if (this.form.valid) {
