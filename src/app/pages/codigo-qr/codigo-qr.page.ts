@@ -38,7 +38,7 @@ export class CodigoPage implements OnInit {
   captureScreen() {
     const element = document.getElementById('qrImage') as HTMLElement;
 
-    html2canvas(element).then((canvas: HTMLCanvasElement) => {
+    html2canvas(element, { scale: 2 }).then((canvas: HTMLCanvasElement) => {
       if (this.platform.is('capacitor')) {
         this.shareImage(canvas);
       } else {

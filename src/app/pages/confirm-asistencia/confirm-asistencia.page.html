@@ -1,14 +1,44 @@
-<ion-header [translucent]="true">
-  <ion-toolbar color="light">
-    <ion-title text-center>Confirmar Asistencia</ion-title>
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Confirmar Asistencia</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <div class="confirm-container">
-    <h2>¿Confirmas la asistencia?</h2>
-    <p><strong>Asignatura:</strong> {{ asignaturaNombre }}</p>
-    <p><strong>Alumno:</strong> {{ alumnoNombre }} {{ alumnoApellido }}</p>
-    <p><strong>ID Alumno:</strong> {{ alumnoId }}</p>
-  </div>
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Detalles de Asistencia</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label position="stacked">Alumno</ion-label>
+        <ion-input [value]="nombreAlumno" readonly></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Profesor</ion-label>
+        <ion-input [value]="nombreProfesor" readonly></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Asignatura</ion-label>
+        <ion-input [value]="nombreAsignatura" readonly></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Fecha</ion-label>
+        <ion-input [value]="fecha" readonly></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Hora</ion-label>
+        <ion-input [value]="hora" readonly></ion-input>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Botón para confirmar la asistencia -->
+  <ion-button expand="full" color="success" (click)="confirmarAsistencia()">
+    Confirmar Asistencia
+  </ion-button>
 </ion-content>
