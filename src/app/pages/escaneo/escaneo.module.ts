@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { AsistenciaQRPageRoutingModule } from './asistencia-qr-routing.module';
+import { EscaneoPageRoutingModule } from './escaneo-routing.module';
 
-import { AsistenciaQRPage } from './asistencia-qr.page';
+import { EscaneoPage } from './escaneo.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    AsistenciaQRPageRoutingModule
+    EscaneoPageRoutingModule
   ],
-  declarations: [AsistenciaQRPage]
+  declarations: [EscaneoPage]
 })
-export class AsistenciaQRPageModule {}
+export class EscaneoPageModule {}

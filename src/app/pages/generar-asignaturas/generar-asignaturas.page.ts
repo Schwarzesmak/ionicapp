@@ -15,6 +15,8 @@ export class GenerarAsignaturasPage implements OnInit {
     this.asignaturaForm = new FormGroup({
       nombre: new FormControl('', [Validators.required]),
       descripcion: new FormControl('', [Validators.required]),
+      cantidadclases: new FormControl('', [Validators.required]),
+      // Añade otros campos según sea necesario
     });
   }
 
@@ -45,6 +47,16 @@ export class GenerarAsignaturasPage implements OnInit {
       } else {
         console.error('Error: No se pudo obtener el nombre del profesor');
       }
+      // Llamar al servicio para guardar la asignatura en la base de datos
+      this.firebaseService.addDocumentToCollection('asignaturas', asignatura)  // Cambié aquí a `addDocumentToCollection`
+        .then(() => {
+          console.log('Asignatura guardada con éxito');
+          // Resetear el formulario después de guardar
+          this.asignaturaForm.reset();
+        })
+        .catch(error => {
+          console.error('Error al guardar la asignatura:', error);
+        });
     }
   }
 }

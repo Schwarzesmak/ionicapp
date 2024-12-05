@@ -15,7 +15,7 @@ export class FirebaseService {
   firestore = inject(AngularFirestore);
 
   // ======================== AUTH ==========================
-  
+
   // Acceder
   signIn(user: User) {
     return signInWithEmailAndPassword(getAuth(), user.email, user.password);
@@ -38,14 +38,19 @@ export class FirebaseService {
 
   // ========================== BASE DE DATOS ==========================
 
-  // Setear un documento en Firestore
-  // Crear un nuevo documento en una colección (por ejemplo, Asignaturas)
+  // Método para agregar un documento a una colección
   async addDocumentToCollection(collectionPath: string, data: any) {
-    const docRef = await addDoc(collection(getFirestore(), collectionPath), data);
-    return docRef;
+    try {
+      const docRef = await addDoc(collection(getFirestore(), collectionPath), data);
+      console.log("Documento creado con ID:", docRef.id); // El ID es generado automáticamente por Firestore
+      return docRef;  // Devuelve la referencia del documento
+    } catch (error) {
+      console.error("Error al agregar el documento:", error);
+      throw error;
+    }
   }
 
-  // Obtener documentos de una colección (por ejemplo, obtener todas las asignaturas)
+  // Obtener documentos de una colección
   async getCollection(collectionPath: string) {
     const q = query(collection(getFirestore(), collectionPath));
     const querySnapshot = await getDocs(q);
@@ -56,7 +61,7 @@ export class FirebaseService {
     return documents;
   }
 
-  // Obtener un documento por ID de una colección (ej. Obtener una asignatura por su ID)
+  // Obtener un documento por ID de una colección
   async getDocumentById(collectionPath: string, id: string) {
     const docRef = doc(getFirestore(), collectionPath, id);
     const docSnap = await getDoc(docRef);
@@ -68,7 +73,7 @@ export class FirebaseService {
     }
   }
 
-  // Obtener documentos filtrados (ej. filtrar por role o status)
+  // Obtener documentos filtrados
   async getFilteredDocuments(collectionPath: string, field: string, value: string) {
     const q = query(collection(getFirestore(), collectionPath), where(field, "==", value));
     const querySnapshot = await getDocs(q);
@@ -84,7 +89,7 @@ export class FirebaseService {
     return this.firestore.collection('asignaturas').valueChanges();
   }
 
-  // Eliminar asignatura de Firestore
+  // Eliminar una asignatura por ID
   deleteAsignatura(asignaturaId: string): Promise<void> {
     const path = `asignaturas/${asignaturaId}`;
     return this.firestore.doc(path).delete();
