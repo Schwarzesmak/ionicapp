@@ -34,12 +34,10 @@ export class ConfirmAsistenciaPage implements OnInit {
   // Método para confirmar la asistencia
   confirmarAsistencia() {
     const asistencia = {
-      profesorId: 'ID del profesor',  // Aquí debes obtener el ID real del profesor
       profesorNombre: this.nombreProfesor.split(' ')[0], // Solo el primer nombre
       profesorApellido: this.nombreProfesor.split(' ')[1] || '',  // Suponiendo que el apellido está después del primer nombre
       alumnoNombre: this.nombreAlumno.split(' ')[0],  // Solo el primer nombre
       alumnoApellido: this.nombreAlumno.split(' ')[1] || '',  // Suponiendo que el apellido está después del primer nombre
-      asignaturaId: 'ID de la asignatura',  // Aquí debes obtener el ID real de la asignatura
       asignaturaNombre: this.nombreAsignatura,
       fecha: this.fecha,
       hora: this.hora,

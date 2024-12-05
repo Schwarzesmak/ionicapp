@@ -12,9 +12,8 @@ import { LoadingController, Platform } from '@ionic/angular';
 })
 export class CodigoPage implements OnInit {
   qrText: string = ''; // Contenido del QR
-  asignaturaId: string;
-  nombre: string;
-  profesor: string;
+  nombre: string = '';  // Nombre de la asignatura
+  profesor: string = '';  // Nombre del profesor
 
   constructor(
     private route: ActivatedRoute,
@@ -25,12 +24,11 @@ export class CodigoPage implements OnInit {
   ngOnInit() {
     // Obtener los datos desde queryParams
     this.route.queryParams.subscribe(params => {
-      this.asignaturaId = params['asignaturaId'];
       this.nombre = params['nombre'];
       this.profesor = params['profesor'];
 
       // Generar el texto del QR con los datos de la asignatura
-      this.qrText = `Asignatura: ${this.nombre}\nID: ${this.asignaturaId}\nProfesor: ${this.profesor}`;
+      this.qrText = `Asignatura: ${this.nombre}\nProfesor: ${this.profesor}`;
     });
   }
 

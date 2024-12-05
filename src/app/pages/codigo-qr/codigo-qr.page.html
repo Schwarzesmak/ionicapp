@@ -3,26 +3,24 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/ver-asignatura"></ion-back-button>
     </ion-buttons>
-    <ion-title> Generar Asignaturas</ion-title>
+    <ion-title> Generar Asignatura</ion-title>
   </ion-toolbar>
 </ion-header>
 
-  <ion-content class="ion-padding">
-    <div class="content-container">
-      <h2>{{ nombre }}</h2>
-      <p><strong>Profesor:</strong> {{ profesor }}</p>
-      <p><strong>ID de Asignatura:</strong> {{ asignaturaId }}</p>
+<ion-content class="ion-padding">
+  <div class="content-container">
+    <h2>{{ nombre }}</h2>
+    <p><strong>Profesor:</strong> {{ profesor }}</p>
 
-      <!-- Contenedor del QR -->
-      <div id="qrImage" class="qr-container">
-        <qr-code [value]="qrText" size="190" errorCorrectionLevel="M"></qr-code>
-      </div>
-
-      <!-- Botón para compartir -->
-      <ion-button (click)="captureScreen()" expand="block" class="ion-margin-top">
-        Compartir
-        <ion-icon slot="end" name="share-social-outline"></ion-icon>
-      </ion-button>
+    <!-- Contenedor del QR -->
+    <div id="qrImage" class="qr-container">
+      <qr-code [value]="qrText" size="190" errorCorrectionLevel="M"></qr-code>
     </div>
-  </ion-content>
 
+    <!-- Botón para compartir -->
+    <ion-button (click)="captureScreen()" expand="block" class="ion-margin-top">
+      Compartir
+      <ion-icon slot="end" name="share-social-outline"></ion-icon>
+    </ion-button>
+  </div>
+</ion-content>
