@@ -48,8 +48,13 @@ const routes: Routes = [
   {
     path: 'ver-asistencia-profesor',
     loadChildren: () => import('./pages/ver-asistencia-profesor/ver-asistencia-profesor.module').then( m => m.VerAsistenciaProfesorPageModule)
+  },
+  {
+    path: 'confirm-asistencia',
+    loadChildren: () => import('./confirm-asistencia/confirm-asistencia.module').then( m => m.ConfirmAsistenciaPageModule)
   }
-  
+
+
 
 
 ];

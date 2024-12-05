@@ -47,4 +47,5 @@ export class EscaneoPage implements OnInit {
     });
     await alert.present();
   }
+
 }
