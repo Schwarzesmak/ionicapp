@@ -35,22 +35,19 @@ export class EscaneoPage implements OnInit {
 
       // Extraer los datos del QR (suponiendo un formato predefinido)
       const asignaturaMatch = scannedData.match(/Asignatura: (.*?)ID:/);
-      const idMatch = scannedData.match(/ID: (.*?)Profesor:/);
       const profesorMatch = scannedData.match(/Profesor: (.*)/);
 
       const nombreAsignatura = asignaturaMatch ? asignaturaMatch[1].trim() : null;
-      const asignaturaId = idMatch ? idMatch[1].trim() : null;
       const nombreProfesor = profesorMatch ? profesorMatch[1].trim() : null;
 
       // Si el usuario está logueado y los datos del QR son correctos
-      if (this.currentUser && nombreAsignatura && asignaturaId && nombreProfesor) {
+      if (this.currentUser && nombreAsignatura && nombreProfesor) {
         const nombreAlumno = this.currentUser.name;
 
         // Redirigir a la página de confirmación de asistencia
         this.navCtrl.navigateForward('/confirm-asistencia', {
           queryParams: {
             nombreAsignatura,
-            asignaturaId,
             nombreProfesor,
             nombreAlumno,
           },
