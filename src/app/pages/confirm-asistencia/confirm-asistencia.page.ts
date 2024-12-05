@@ -51,10 +51,9 @@ export class ConfirmAsistenciaPage implements OnInit {
     }
 
     // Crear el objeto de asistencia
-    const asistencia: Asistencia = {
+    const asistencia = {
       profesorNombre: this.nombreProfesor.split(' ')[0] || '', // Nombre del profesor
       profesorApellido: this.nombreProfesor.split(' ')[1] || '', // Apellido del profesor
-      alumnouid:this.usuario.uid || '',
       alumnoNombre: this.usuario.name || '', // Nombre del alumno desde Firebase
       alumnoApellido: this.usuario.lastname || '', // Apellido del alumno desde Firebase
       asignaturaNombre: this.nombreAsignatura, // Nombre de la asignatura
