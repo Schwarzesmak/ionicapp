@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FirebaseService } from 'src/app/services/firebase.service'; // Asegúrate de que tienes el servicio de Firebase
+import { FirebaseService } from 'src/app/services/firebase.service';
+import { Asistencia } from 'src/app/models/asistencia.model';
 
 @Component({
   selector: 'app-confirm-asistencia',
@@ -9,51 +10,54 @@ import { FirebaseService } from 'src/app/services/firebase.service'; // Asegúra
 export class ConfirmAsistenciaPage implements OnInit {
   nombreAsignatura: string = '';
   nombreProfesor: string = '';
-  nombreAlumno: string = ''; // Asegúrate de declarar la propiedad
+  nombreAlumno: string = '';
   fecha: string = '';
   hora: string = '';
-  usuario: any = {}; // Aquí se almacenará el usuario que confirma la asistencia
+  usuario: any = {};
 
   constructor(private firebaseService: FirebaseService) {}
 
   ngOnInit() {
-    // Obtener los datos almacenados en localStorage
     const asistencia = JSON.parse(localStorage.getItem('asistencia') || '{}');
-    if (asistencia) {
-      this.nombreAsignatura = asistencia.nombreAsignatura;
-      this.nombreProfesor = asistencia.nombreProfesor;
-      this.nombreAlumno = asistencia.nombreAlumno; // Asigna el valor de nombreAlumno desde localStorage
-      this.fecha = asistencia.fecha;
-      this.hora = asistencia.hora;
+    if (asistencia && Object.keys(asistencia).length > 0) {
+      this.nombreAsignatura = asistencia.nombreAsignatura || '';
+      this.nombreProfesor = asistencia.nombreProfesor || '';
+      this.nombreAlumno = asistencia.nombreAlumno || '';
+      this.fecha = asistencia.fecha || '';
+      this.hora = asistencia.hora || '';
+    } else {
+      console.warn("No se encontraron datos de asistencia en localStorage.");
     }
 
-    // Obtener el usuario actual del localStorage (o de Firebase si es necesario)
     this.usuario = JSON.parse(localStorage.getItem('currentUser') || '{}');
+    if (!this.usuario.name || !this.usuario.lastname) {
+      console.warn("Información del usuario no encontrada en localStorage.");
+    }
   }
 
-  // Confirmar asistencia, almacenando los datos en Firebase
   confirmarAsistencia() {
-    const asistencia = {
-      profesorNombre: this.nombreProfesor.split(' ')[0], // Solo el primer nombre
-      profesorApellido: this.nombreProfesor.split(' ')[1] || '',  // Suponiendo que el apellido está después del primer nombre
-      alumnoNombre: this.nombreAlumno.split(' ')[0],  // Solo el primer nombre
-      alumnoApellido: this.nombreAlumno.split(' ')[1] || '',  // Suponiendo que el apellido está después del primer nombre
+    if (!this.nombreAsignatura || !this.nombreAlumno || !this.nombreProfesor || !this.fecha || !this.hora) {
+      console.error('Faltan datos para confirmar la asistencia.');
+      return;
+    }
+
+    const asistencia: Asistencia = {
+      profesorNombre: this.nombreProfesor.split(' ')[0] || '',
+      profesorApellido: this.nombreProfesor.split(' ')[1] || '',
+      alumnoNombre: this.nombreAlumno.split(' ')[0] || '',
+      alumnoApellido: this.nombreAlumno.split(' ')[1] || '',
       asignaturaNombre: this.nombreAsignatura,
       fecha: this.fecha,
       hora: this.hora,
-      // Agregar el nombre y apellido del usuario que está confirmando la asistencia
-      usuarioNombre: this.usuario.name, // O cualquier otro campo que contenga el nombre
-      usuarioApellido: this.usuario.lastName, // O cualquier otro campo que contenga el apellido
     };
 
-    // Almacenar la asistencia en Firebase
-    this.firebaseService.addDocumentToCollection('asistencias', asistencia).then(() => {
-      // Redirigir o mostrar mensaje de éxito
-      console.log('Asistencia registrada correctamente');
-      // Eliminar los datos de localStorage después de confirmar
-      localStorage.removeItem('asistencia');
-    }).catch((error) => {
-      console.error('Error al registrar la asistencia:', error);
-    });
+    this.firebaseService.addDocumentToCollection('asistencias', asistencia)
+      .then(() => {
+        console.log('Asistencia registrada correctamente.');
+        localStorage.removeItem('asistencia');
+      })
+      .catch((error) => {
+        console.error('Error al registrar la asistencia:', error);
+      });
   }
 }

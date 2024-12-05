@@ -42,13 +42,14 @@ export class FirebaseService {
   async addDocumentToCollection(collectionPath: string, data: any) {
     try {
       const docRef = await addDoc(collection(getFirestore(), collectionPath), data);
-      console.log("Documento creado con ID:", docRef.id); // El ID es generado automáticamente por Firestore
-      return docRef;  // Devuelve la referencia del documento
+      console.log("Documento creado con ID:", docRef.id);
+      return docRef;
     } catch (error) {
       console.error("Error al agregar el documento:", error);
       throw error;
     }
   }
+  
 
   // Obtener documentos de una colección
   async getCollection(collectionPath: string) {
