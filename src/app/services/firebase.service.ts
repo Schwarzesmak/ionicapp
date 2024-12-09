@@ -5,6 +5,8 @@ import { User } from '../models/user.model';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { getFirestore, setDoc, doc, getDoc, collection, addDoc, query, where, getDocs } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { LocalStorageService } from './local-storage.service';  // Importamos el servicio de LocalStorage
+import { NetworkService } from './network.service';  // Importamos el servicio de Network para detectar conexión
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +15,8 @@ export class FirebaseService {
 
   auth = inject(AngularFireAuth);
   firestore = inject(AngularFirestore);
+  localStorageService = inject(LocalStorageService);  // Inyectamos el servicio de LocalStorage
+  networkService = inject(NetworkService);  // Inyectamos el servicio de Network
 
   // ======================== AUTH ==========================
 
@@ -38,15 +42,44 @@ export class FirebaseService {
 
   // ========================== BASE DE DATOS ==========================
 
-  // Método para agregar un documento a una colección
+  // Método para agregar un documento a una colección (con soporte offline)
   async addDocumentToCollection(collectionPath: string, data: any) {
-    try {
-      const docRef = await addDoc(collection(getFirestore(), collectionPath), data);
-      console.log("Documento creado con ID:", docRef.id);
-      return docRef;
-    } catch (error) {
-      console.error("Error al agregar el documento:", error);
-      throw error;
+    const isOnline = await this.networkService.isOnline();  // Detecta si estamos online
+
+    if (isOnline) {
+      try {
+        const docRef = await addDoc(collection(getFirestore(), collectionPath), data);
+        console.log("Documento creado con ID:", docRef.id);
+        return docRef;
+      } catch (error) {
+        console.error("Error al agregar el documento:", error);
+        throw error;
+      }
+    } else {
+      // Si estamos offline, guardamos los datos en LocalStorage
+      const pendingData = this.localStorageService.getItem('pendingDocuments') || [];
+      pendingData.push({ collectionPath, data });
+      this.localStorageService.setItem('pendingDocuments', pendingData);
+      console.log("Datos guardados en localStorage por estar offline");
+    }
+  }
+
+  // Sincroniza los datos pendientes en LocalStorage cuando vuelve la conexión
+  async syncPendingData() {
+    const pendingData = this.localStorageService.getItem('pendingDocuments') || [];
+
+    if (pendingData.length > 0) {
+      for (const item of pendingData) {
+        try {
+          await this.addDocumentToCollection(item.collectionPath, item.data);  // Subir cada documento a Firebase
+        } catch (error) {
+          console.error("Error al sincronizar los datos pendientes:", error);
+        }
+      }
+
+      // Borrar los datos pendientes después de haber sido subidos
+      this.localStorageService.removeItem('pendingDocuments');
+      console.log("Datos sincronizados con Firebase");
     }
   }
 
@@ -67,26 +100,14 @@ export class FirebaseService {
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       const data = docSnap.data();
-      return { ...data, id: docSnap.id };  // Aquí el 'id' es el ID de Firestore
+      return { ...data, id: docSnap.id };
     } else {
       throw new Error("No such document!");
     }
   }
 
-  // Obtener documentos filtrados
-  async getFilteredDocuments(collectionPath: string, field: string, value: string) {
-    const q = query(collection(getFirestore(), collectionPath), where(field, "==", value));
-    const querySnapshot = await getDocs(q);
-    let documents: any[] = [];
-    querySnapshot.forEach((doc) => {
-      documents.push({ ...doc.data(), id: doc.id });
-    });
-    return documents;
-  }
-
   // Método para obtener los estudiantes (anteriormente alumnos)
   async getAlumnos() {
-    // Cambié el valor del filtro a 'estudiante'
     const alumnos = await this.getFilteredDocuments('users', 'role', 'estudiante');
     return alumnos;
   }
@@ -103,18 +124,18 @@ export class FirebaseService {
     if (currentUser && currentUser.displayName) {
       return currentUser.displayName;
     } else if (currentUser) {
-      return currentUser.email; // Si no tiene nombre, mostrar el email
+      return currentUser.email;
     }
     return null;
   }
 
   // Obtener el usuario logueado por su UID de Firebase Auth
   async getUsuarioLogueado() {
-    const currentUser = getAuth().currentUser;  // Obtiene el usuario autenticado
+    const currentUser = getAuth().currentUser;
     if (currentUser) {
       const uid = currentUser.uid;
       try {
-        const userData = await this.getDocumentById('users', uid); // Asegúrate de tener la colección 'users' en Firestore
+        const userData = await this.getDocumentById('users', uid);
         return userData;
       } catch (error) {
         console.error("Error al obtener los datos del usuario:", error);
