@@ -1,43 +1,44 @@
-<div class="ion-page" id="main-content">
-  <ion-header>
-    <ion-toolbar>
-      <ion-buttons slot="start">
-        <ion-menu-button></ion-menu-button>
-      </ion-buttons>
-      <ion-title>RegistrAPP</ion-title>
-      <ion-icon name="person-circle" slot="end" size="large" class="ion-margin-end" routerLink="/perfil"></ion-icon>
-    </ion-toolbar>
-  </ion-header>
+<ion-header class="custom-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/profesor-index"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Generar Qr</ion-title>
+  </ion-toolbar>
+</ion-header>
 
-  <ion-content class="ion-padding">
-    <div class="content-container">
+<ion-content class="ion-padding">
+  <div class="container">
+    <!-- Título de la asignatura -->
+    <div class="title-container">
+      <ion-icon name="book-outline" class="title-icon"></ion-icon>
+      <h1 class="asignatura-title">{{ asignaturaNombre }}</h1>
+    </div>
+    <p class="profesor-info">Profesor: {{ profesorNombre }}</p>
 
-      <!-- Contenedor para el código QR -->
+    <!-- Contenedor para el código QR -->
+    <div class="qr-display">
       <div id="qrImage" class="qr-container">
         <div class="qr-wrapper">
           <qr-code [value]="qrText" size="190" errorCorrectionLevel="M"></qr-code>
-          <!-- Placeholder si qrText está vacío -->
-          <img *ngIf="!qrText" class="qr-placeholder" src="assets/qr.png" alt="Código QR">
         </div>
-        <div class="qr-text ion-padding-top">{{qrText}}</div>
       </div>
+      <p class="qr-description">
+        Escanea este código para obtener los detalles de la asignatura y el profesor.
+      </p>
+    </div>
 
-      <!-- Campo de entrada de texto -->
-      <ion-textarea
-        label="Escribe para generar el Código QR"
-        labelPlacement="stacked"
-        fill="outline"
-        [(ngModel)]="qrText"
-        rows="4"
-        [autoGrow]="true"
-        class="input-field"
-      ></ion-textarea>
-
-      <!-- Botón para compartir -->
-      <ion-button (click)="captureScreen()" *ngIf="qrText" class="submit-button ion-margin-top" expand="block">
+    <!-- Botones de acción -->
+    <div class="actions">
+      <ion-button (click)="captureScreen()" color="success" expand="block" shape="round">
         Compartir
         <ion-icon slot="end" name="share-social-outline"></ion-icon>
       </ion-button>
+
+      <ion-button (click)="captureScreen()" color="secondary" expand="block" shape="round">
+        Descargar
+        <ion-icon slot="end" name="download-outline"></ion-icon>
+      </ion-button>
     </div>
-  </ion-content>
-</div>
+  </div>
+</ion-content>

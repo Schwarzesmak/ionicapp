@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { FirebaseService } from 'src/app/services/firebase.service';
-import { Asignatura } from 'src/app/models/asignaturas.model';  // Asegúrate de tener el modelo Asignatura
+import { Asignatura } from 'src/app/models/asignaturas.model';
 
 @Component({
   selector: 'app-generar-asignaturas',
@@ -16,20 +16,27 @@ export class GenerarAsignaturasPage implements OnInit {
       nombre: new FormControl('', [Validators.required]),
       descripcion: new FormControl('', [Validators.required]),
       cantidadclases: new FormControl('', [Validators.required]),
-      // Añade otros campos según sea necesario
     });
   }
 
   ngOnInit() {}
 
   // Método para manejar el submit
-  submit() {
+  async submit() {
     if (this.asignaturaForm.valid) {
+      // Obtener el nombre y apellido del profesor desde la autenticación
+      const profesor = await this.firebaseService.getAuthenticatedUserName();
+      const apellidoProfesor = await this.firebaseService.getAuthenticatedUserLastname();
+
       // Crear la asignatura desde el formulario
-      const asignatura: Asignatura = this.asignaturaForm.value;
+      const asignatura: Asignatura = {
+        ...this.asignaturaForm.value,
+        profesor: profesor || 'Profesor no asignado',
+        profesorApellido: apellidoProfesor || 'Apellido no asignado', // Asegúrate de que siempre haya un valor
+      };
 
       // Llamar al servicio para guardar la asignatura en la base de datos
-      this.firebaseService.addDocumentToCollection('asignaturas', asignatura)  // Cambié aquí a `addDocumentToCollection`
+      this.firebaseService.addDocumentToCollection('asignaturas', asignatura)
         .then(() => {
           console.log('Asignatura guardada con éxito');
           // Resetear el formulario después de guardar

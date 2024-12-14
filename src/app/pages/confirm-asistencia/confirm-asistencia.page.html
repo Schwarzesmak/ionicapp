@@ -1,13 +1,13 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Confirmar Asistencia</ion-title>
+  <ion-toolbar color="success">
+    <ion-title text-center>Confirmar Asistencia</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="ion-padding">
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Detalles de Asistencia</ion-card-title>
+      <ion-card-title class="details-title">Detalles de Asistencia</ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <ion-item>
@@ -32,8 +32,8 @@
     </ion-card-content>
   </ion-card>
 
-  <!-- Botón para confirmar la asistencia -->
   <ion-button expand="full" color="success" (click)="confirmarAsistencia()">
+    <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>
     Confirmar Asistencia
   </ion-button>
 </ion-content>

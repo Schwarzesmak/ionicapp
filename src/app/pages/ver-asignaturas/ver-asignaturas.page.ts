@@ -20,34 +20,31 @@ export class VerAsignaturasPage implements OnInit {
   obtenerAsignaturas() {
     this.firebaseService.getCollection('asignaturas').then((data: any[]) => {
       this.asignaturas = data;
+      console.log(this.asignaturas); // Verifica que 'profesor' esté incluido
     });
   }
 
-// Método para eliminar una asignatura
-eliminarAsignatura(asignaturaId: string) {
-  if (confirm('¿Estás seguro de que deseas eliminar esta asignatura?')) {
-    this.firebaseService.deleteAsignatura(asignaturaId).then(() => {
-      console.log('Asignatura eliminada de Firestore correctamente');
-      this.obtenerAsignaturas();  // Vuelve a obtener las asignaturas
-      alert('Asignatura eliminada correctamente');
-    }).catch((error) => {
-      console.error('Error al eliminar la asignatura:', error);
-      alert('Ocurrió un error al intentar eliminar la asignatura.');
-    });
+  // Método para eliminar una asignatura
+  eliminarAsignatura(asignaturaId: string) {
+    if (confirm('¿Estás seguro de que deseas eliminar esta asignatura?')) {
+      this.firebaseService.deleteAsignatura(asignaturaId).then(() => {
+        console.log('Asignatura eliminada de Firestore correctamente');
+        this.obtenerAsignaturas();  // Vuelve a obtener las asignaturas
+        alert('Asignatura eliminada correctamente');
+      }).catch((error) => {
+        console.error('Error al eliminar la asignatura:', error);
+        alert('Ocurrió un error al intentar eliminar la asignatura.');
+      });
+    }
   }
-}
-
-
-
-
 
   // Redirigir a la página de generación de QR
   irAGenerarQR(asignatura: any) {
     this.router.navigate(['/codigo-qr'], {
       queryParams: {
-        asignaturaId: asignatura.id,
-        nombre: asignatura.nombre,
-        profesor: asignatura.profesor // Aquí pasamos el nombre del profesor
+        asignaturaId: asignatura.id,      // ID de la asignatura
+        nombre: asignatura.nombre,       // Nombre de la asignatura
+        profesor: asignatura.profesor    // Nombre del profesor
       },
     });
   }

@@ -1,37 +1,33 @@
-<ion-header [translucent]="true">
+<ion-header class="custom-header" [translucent]="true">
   <ion-toolbar>
     <ion-title>Generar Asignaturas</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="content">
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">Generar Asignaturas</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <form [formGroup]="asignaturaForm" (ngSubmit)="submit()">
-    <!-- Nombre de la asignatura -->
-    <ion-item>
+  <form [formGroup]="asignaturaForm" (ngSubmit)="submit()" class="form-container">
+    <ion-item class="input-item">
       <ion-label position="floating">Nombre de la asignatura</ion-label>
-      <ion-input formControlName="nombre" type="text"></ion-input>
+      <ion-input formControlName="nombre" type="text" placeholder="Introduce el nombre"></ion-input>
     </ion-item>
 
-    <!-- Descripción de la asignatura -->
-    <ion-item>
+    <ion-item class="input-item">
       <ion-label position="floating">Descripción</ion-label>
-      <ion-input formControlName="descripcion" type="text"></ion-input>
+      <ion-input formControlName="descripcion" type="text" placeholder="Descripción breve"></ion-input>
     </ion-item>
 
-    <!-- Cantidad de clases de la asignatura -->
-    <ion-item>
+    <ion-item class="input-item">
       <ion-label position="floating">Cantidad de clases</ion-label>
-      <ion-input formControlName="cantidadclases" type="text"></ion-input>
+      <ion-input formControlName="cantidadclases" type="number" placeholder="Número de clases"></ion-input>
     </ion-item>
 
-    <!-- Botón de envío -->
-    <ion-button expand="full" type="submit" [disabled]="asignaturaForm.invalid">
+    <ion-button expand="full" type="submit" [disabled]="asignaturaForm.invalid" class="submit-button">
       Crear Asignatura
     </ion-button>
   </form>

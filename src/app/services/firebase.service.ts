@@ -108,21 +108,40 @@ export class FirebaseService {
     return null;
   }
 
-  // Obtener el usuario logueado por su UID de Firebase Auth
-  async getUsuarioLogueado() {
-    const currentUser = getAuth().currentUser;  // Obtiene el usuario autenticado
-    if (currentUser) {
-      const uid = currentUser.uid;
-      try {
-        const userData = await this.getDocumentById('users', uid); // Asegúrate de tener la colección 'users' en Firestore
-        return userData;
-      } catch (error) {
-        console.error("Error al obtener los datos del usuario:", error);
-        throw error;
-      }
+
+  // Método para obtener el apellido del usuario autenticado
+async getAuthenticatedUserLastname(): Promise<string | null> {
+  const currentUser = getAuth().currentUser;
+  if (currentUser) {
+    // Si tienes el apellido almacenado en algún campo específico, puedes acceder a él aquí.
+    // Supongo que el apellido podría ser parte del displayName o en algún otro campo adicional.
+    // Si solo tienes el displayName con nombre y apellido juntos, puedes dividirlo
+    const nombreCompleto = currentUser.displayName;
+    if (nombreCompleto) {
+      const [nombre, apellido] = nombreCompleto.split(' ');
+      return apellido || null;  // Devuelve solo el apellido
     }
-    return null;
   }
+  return null;
+}
+
+
+// Obtener el usuario logueado por su UID de Firebase Auth
+async getUsuarioLogueado(): Promise<User | null> {
+  const currentUser = getAuth().currentUser; // Obtiene el usuario autenticado
+  if (currentUser) {
+    const uid = currentUser.uid;
+    try {
+      const userData = await this.getDocumentById('users', uid); // Asegúrate de tener la colección 'users' en Firestore
+      // Combina los datos del usuario con su id y los tipa como User
+      return { id: uid, ...(userData as User) };
+    } catch (error) {
+      console.error("Error al obtener los datos del usuario:", error);
+      throw error;
+    }
+  }
+  return null;
+}
 
   // Método para actualizar un documento en Firestore
   async updateDocument(path: string, data: any) {

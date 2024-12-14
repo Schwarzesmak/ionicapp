@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { Asistencia } from 'src/app/models/asistencia.model';
-import { NavController } from '@ionic/angular'; // Importa NavController
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-confirm-asistencia',
@@ -13,16 +13,16 @@ export class ConfirmAsistenciaPage implements OnInit {
   nombreProfesor: string = '';
   fecha: string = '';
   hora: string = '';
-  usuario: any = {}; // Para los datos del usuario logueado
+  usuario: any = {};
 
   constructor(
     private firebaseService: FirebaseService,
-    private navCtrl: NavController // Inyectar NavController correctamente
+    private navCtrl: NavController
   ) {}
 
   async ngOnInit() {
-    // Cargar los datos de asistencia desde localStorage
     const asistencia = JSON.parse(localStorage.getItem('asistencia') || '{}');
+
     if (asistencia && Object.keys(asistencia).length > 0) {
       this.nombreAsignatura = asistencia.nombreAsignatura || '';
       this.nombreProfesor = asistencia.nombreProfesor || '';
@@ -32,7 +32,6 @@ export class ConfirmAsistenciaPage implements OnInit {
       console.warn('No se encontraron datos de asistencia en localStorage.');
     }
 
-    // Cargar los datos del usuario logueado desde Firebase
     try {
       this.usuario = await this.firebaseService.getUsuarioLogueado();
       if (!this.usuario) {
@@ -44,39 +43,32 @@ export class ConfirmAsistenciaPage implements OnInit {
   }
 
   async confirmarAsistencia() {
-    // Validar que no falten datos importantes
     if (!this.nombreAsignatura || !this.nombreProfesor) {
       console.error('Faltan datos para confirmar la asistencia.');
       return;
     }
 
-    // Crear el objeto de asistencia
     const asistencia: Asistencia = {
-      profesorNombre: this.nombreProfesor.split(' ')[0] || '', // Nombre del profesor
-      profesorApellido: this.nombreProfesor.split(' ')[1] || '', // Apellido del profesor
-      alumnoNombre: this.usuario.name || '', // Nombre del alumno desde Firebase
-      alumnoApellido: this.usuario.lastname || '', // Apellido del alumno desde Firebase
-      asignaturaNombre: this.nombreAsignatura, // Nombre de la asignatura
-      fecha: this.fecha || new Date().toISOString().split('T')[0], // Fecha actual si no hay valor en localStorage
-      hora: this.hora || new Date().toLocaleTimeString(), // Hora actual si no hay valor en localStorage
+      profesorNombre: this.nombreProfesor.split(' ')[0] || '',
+      profesorApellido: this.nombreProfesor.split(' ')[1] || '',
+      alumnoNombre: this.usuario.name || '',
+      alumnoApellido: this.usuario.lastname || '',
+      asignaturaNombre: this.nombreAsignatura,
+      fecha: this.fecha || new Date().toISOString().split('T')[0],
+      hora: this.hora || new Date().toLocaleTimeString(),
     };
 
     try {
-      // Guardar la asistencia en Firebase (colección 'asistencias')
       await this.firebaseService.addDocumentToCollection('asistencias', asistencia);
       console.log('Asistencia registrada correctamente.');
 
-      // Actualizar el registro del alumno para marcarlo como "Presente"
-      const alumnoId = this.usuario.id; // Suponiendo que 'id' es el ID único del alumno
+      const alumnoId = this.usuario.id;
       await this.firebaseService.updateDocument(`users/${alumnoId}`, {
-        presente: asistencia.fecha, // Actualiza el campo "presente" con la fecha de asistencia
+        presente: asistencia.fecha,
       });
 
-      // Después de guardar en Firebase, eliminamos los datos de localStorage
       localStorage.removeItem('asistencia');
-
-      // Redirigir a la página principal
-      this.navCtrl.navigateRoot('/main'); // Reemplaza '/main' si tienes otro path
+      this.navCtrl.navigateRoot('/main');
     } catch (error) {
       console.error('Error al registrar la asistencia:', error);
     }

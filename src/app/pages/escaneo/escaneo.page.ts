@@ -11,7 +11,7 @@ export class EscaneoPage implements OnInit {
   isSupported = false;
   barcodes: Barcode[] = [];
 
-  constructor(private alertController: AlertController, private navCtrl: NavController) { }
+  constructor(private alertController: AlertController, private navCtrl: NavController) {}
 
   ngOnInit() {
     BarcodeScanner.isSupported().then((result) => {
@@ -25,24 +25,40 @@ export class EscaneoPage implements OnInit {
       this.presentAlert();
       return;
     }
-    const { barcodes } = await BarcodeScanner.scan();
-    this.barcodes.push(...barcodes);
 
-    // Redirige a la página de confirmación de asistencia después de escanear
-    this.navCtrl.navigateForward('/confirm-asistencia');
+    const { barcodes } = await BarcodeScanner.scan();
+
+    if (barcodes.length > 0) {
+      this.barcodes.push(...barcodes);
+
+      // Guardar los datos escaneados en localStorage
+      const scannedData = {
+        nombreAsignatura: barcodes[0].rawValue.split('-')[0] || 'Sin nombre',
+        nombreProfesor: barcodes[0].rawValue.split('-')[1]?.trim() || 'Desconocido',
+        fecha: new Date().toISOString().split('T')[0],
+        hora: new Date().toLocaleTimeString(),
+      };
+      
+      localStorage.setItem('asistencia', JSON.stringify(scannedData));
+
+      // Redirigir a la página de confirmación
+      this.navCtrl.navigateForward('/confirm-asistencia');
+    } else {
+      console.warn('No se escanearon códigos válidos.');
+    }
   }
 
   async requestPermissions(): Promise<boolean> {
-    console.log("Solicitando permisos de cámara...");
+    console.log('Solicitando permisos de cámara...');
     const { camera } = await BarcodeScanner.requestPermissions();
-    console.log("Permiso de cámara:", camera);
+    console.log('Permiso de cámara:', camera);
     return camera === 'granted' || camera === 'limited';
   }
 
   async presentAlert(): Promise<void> {
     const alert = await this.alertController.create({
       header: 'Permiso denegado',
-      message: 'Para usar la aplicación autorizar los permisos de cámara',
+      message: 'Para usar la aplicación autoriza los permisos de cámara',
       buttons: ['OK'],
     });
     await alert.present();

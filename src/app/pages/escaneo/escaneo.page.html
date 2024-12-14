@@ -1,17 +1,15 @@
 <ion-header [translucent]="true">
-  <ion-toolbar color="light">
-    <ion-title text-center>RegistrAPP</ion-title>
+  <ion-toolbar color="primary">
+    <ion-title text-center>Escanear QR</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <!-- Título descriptivo de la sección -->
   <div class="scan-title-container">
-    <h2>Escanear Códigos de Barras</h2>
-    <p>Presiona el botón para escanear un nuevo código</p>
+    <h2 class="scan-heading">¡Escanea tu QR!</h2>
+    <p class="scan-subheading">Presiona el botón para capturar el código QR de asistencia</p>
   </div>
 
-  <!-- Lista de códigos escaneados -->
   <ion-card *ngIf="barcodes.length > 0" class="barcodes-card">
     <ion-card-header>
       <ion-card-title>Códigos Escaneados</ion-card-title>
@@ -26,10 +24,9 @@
     </ion-card-content>
   </ion-card>
 
-  <!-- Botón de Escaneo en el Centro -->
   <div class="scan-button-container">
-    <ion-button color="primary" expand="block" shape="round" (click)="scan()" [disabled]="!isSupported">
-      <ion-icon name="scan" slot="start"></ion-icon>
+    <ion-button color="success" expand="block" shape="round" (click)="scan()" [disabled]="!isSupported">
+      <ion-icon name="qr-code-outline" slot="start"></ion-icon>
       Escanear Código
     </ion-button>
   </div>

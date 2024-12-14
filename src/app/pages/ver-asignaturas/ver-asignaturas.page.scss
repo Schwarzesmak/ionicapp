@@ -1,69 +1,82 @@
-/* Mejoras para las tarjetas de asignaturas */
-ion-card {
-  margin: 10px 0; /* Márgenes para separación entre tarjetas */
-  border-radius: 12px; /* Bordes redondeados */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+/* Mejora en el diseño de las tarjetas de asignatura */
+ion-card.asignatura-card {
+  margin: 15px 0; /* Márgenes más amplios para separación */
+  border-radius: 15px; /* Bordes más redondeados */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Sombra más pronunciada */
+  background-color: #f9f9f9; /* Fondo suave para las tarjetas */
+  transition: all 0.3s ease; /* Transición para el hover */
 }
 
 /* Estilo del título de la asignatura */
 .asignatura-titulo {
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   font-weight: bold;
-  color: #333;
+  color: #003366;
   text-align: center;
 }
 
 /* Estilo del subtítulo (Profesor) */
 .profesor-subtitle {
-  font-size: 1.1rem;
-  color: #ffffff;
+  font-size: 1.2rem;
+  color: #003366;
   text-align: center;
-  margin-top: 5px;
+  margin-top: 8px;
 }
 
 /* Estilo de los botones (eliminar y generar QR) */
 .action-btn {
   color: #ffffff;
-  margin-right: 10px;
+  margin-right: 12px;
   border-radius: 25px;
-  min-width: 150px;
+  min-width: 140px;
   text-align: center;
+  font-weight: bold;
+}
+
+.eliminar-btn {
+  background-color: #ff4d4d; /* Rojo para el botón de eliminar */
+}
+
+.qr-btn {
+  background-color: #4d79ff; /* Azul para el botón de QR */
 }
 
 ion-footer {
-  margin-top: 20px;
+  margin-top: 30px;
 }
 
-/* Estilo para el contenido del botón cuando está deshabilitado */
+/* Estilo para los botones cuando están deshabilitados */
 ion-button:disabled {
   opacity: 0.5;
 }
 
-/* Estilo del contenido al pasar el mouse (hover) en las tarjetas */
-ion-card:hover {
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+/* Efecto hover para las tarjetas */
+ion-card.asignatura-card:hover {
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+  transform: translateY(-5px); /* Ligeramente eleva la tarjeta */
 }
 
-custom-header {
+/* Estilos del header */
+.custom-header {
   --background: #003366; /* Azul oscuro */
-  height: 70px; /* Tamaño moderado del header */
+  height: 70px;
 }
 
 .custom-header ion-toolbar {
-  --background: #003366; /* Fondo azul oscuro del toolbar */
-  height: 70px; /* Altura moderada */
+  --background: #003366;
+  height: 70px;
 }
 
 .custom-header ion-title {
-  font-size: 1.5rem; /* Tamaño del texto ligeramente más grande */
+  font-size: 1.6rem;
   font-weight: bold;
-  color: #fff; /* Texto blanco para un buen contraste */
+  color: #fff;
 }
 
 .large-icon {
-  font-size: 1.5rem; /* Tamaño del icono ligeramente más grande */
+  font-size: 1.5rem;
 }
 
 .custom-header ion-back-button {
-  color: white; /* Flecha de retroceso en blanco */
+  color: white;
 }

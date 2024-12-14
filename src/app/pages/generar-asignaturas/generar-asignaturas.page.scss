@@ -1,23 +1,59 @@
-custom-header {
-    --background: #003366; /* Azul oscuro */
-    height: 70px; /* Tamaño moderado del header */
-  }
-  
-  .custom-header ion-toolbar {
-    --background: #003366; /* Fondo azul oscuro del toolbar */
-    height: 70px; /* Altura moderada */
-  }
-  
-  .custom-header ion-title {
-    font-size: 1.5rem; /* Tamaño del texto ligeramente más grande */
-    font-weight: bold;
-    color: #fff; /* Texto blanco para un buen contraste */
-  }
-  
-  .large-icon {
-    font-size: 1.5rem; /* Tamaño del icono ligeramente más grande */
-  }
-  
-  .custom-header ion-back-button {
-    color: white; /* Flecha de retroceso en blanco */
-  }
+/* Estilos personalizados para el header */
+.custom-header {
+  --background: #003366; /* Azul oscuro */
+  height: 70px; /* Altura moderada del header */
+}
+
+.custom-header ion-toolbar {
+  --background: #003366; /* Fondo azul oscuro del toolbar */
+  height: 70px; /* Altura moderada */
+}
+
+.custom-header ion-title {
+  font-size: 1.6rem; /* Título ligeramente más grande */
+  font-weight: bold;
+  color: #fff; /* Texto blanco para buen contraste */
+  text-align: center;
+}
+
+/* Estilos para los formularios */
+.content {
+  background-color: #f4f6f8; /* Fondo claro */
+  padding: 20px;
+}
+
+.form-container {
+  margin-top: 20px;
+}
+
+.input-item {
+  --highlight-height: 50px; /* Mayor altura en los inputs */
+  margin-bottom: 15px;
+}
+
+ion-label {
+  color: #003366; /* Azul oscuro para los labels */
+  font-weight: bold;
+}
+
+/* Estilo de los inputs */
+ion-input {
+  --border-radius: 10px;
+  --padding-start: 12px;
+  --background: #ffffff; /* Fondo blanco */
+  --box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+/* Estilo del botón */
+.submit-button {
+  background: #003366; /* Azul oscuro */
+  border-radius: 25px;
+  font-size: 1.1rem; /* Tamaño de texto ligeramente mayor */
+  margin-top: 20px;
+}
+
+/* Estilo al pasar el cursor sobre el botón */
+.submit-button:hover {
+  background: #005b99; /* Azul más claro al hacer hover */
+  transition: background 0.3s;
+}
