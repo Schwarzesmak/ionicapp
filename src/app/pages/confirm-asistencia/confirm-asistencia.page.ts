@@ -3,6 +3,7 @@ import { FirebaseService } from 'src/app/services/firebase.service';
 import { Asistencia } from 'src/app/models/asistencia.model';
 import { NavController } from '@ionic/angular';
 
+
 @Component({
   selector: 'app-confirm-asistencia',
   templateUrl: './confirm-asistencia.page.html',
