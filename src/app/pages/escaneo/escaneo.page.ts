@@ -31,14 +31,13 @@ export class EscaneoPage implements OnInit {
     if (barcodes.length > 0) {
       this.barcodes.push(...barcodes);
 
-      // Guardar los datos escaneados en localStorage
+      // Guardar solo el nombre de la asignatura en localStorage
       const scannedData = {
         nombreAsignatura: barcodes[0].rawValue.split('-')[0] || 'Sin nombre',
-        nombreProfesor: barcodes[0].rawValue.split('-')[1]?.trim() || 'Desconocido',
         fecha: new Date().toISOString().split('T')[0],
         hora: new Date().toLocaleTimeString(),
       };
-      
+
       localStorage.setItem('asistencia', JSON.stringify(scannedData));
 
       // Redirigir a la página de confirmación
@@ -47,6 +46,7 @@ export class EscaneoPage implements OnInit {
       console.warn('No se escanearon códigos válidos.');
     }
   }
+
 
   async requestPermissions(): Promise<boolean> {
     console.log('Solicitando permisos de cámara...');

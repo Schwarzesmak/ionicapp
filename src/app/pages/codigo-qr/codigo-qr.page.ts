@@ -17,7 +17,6 @@ export class CodigoPage implements OnInit {
   ngOnInit() {
     this.route.queryParams.subscribe((params) => {
       this.asignaturaNombre = params['nombre'];
-      this.profesorNombre = params['profesor'];
       this.qrText = `Asignatura: ${this.asignaturaNombre}, Profesor: ${this.profesorNombre}`;
     });
   }
