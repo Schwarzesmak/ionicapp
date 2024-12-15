@@ -17,7 +17,7 @@ export class CodigoPage implements OnInit {
   ngOnInit() {
     this.route.queryParams.subscribe((params) => {
       this.asignaturaNombre = params['nombre'];
-      this.qrText = `Asignatura: ${this.asignaturaNombre}, Profesor: ${this.profesorNombre}`;
+      this.qrText = `Asignatura: ${this.asignaturaNombre}`;
     });
   }
   // Método para capturar la pantalla y descargar como imagen

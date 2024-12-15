@@ -11,7 +11,6 @@ import { NavController } from '@ionic/angular';
 })
 export class ConfirmAsistenciaPage implements OnInit {
   nombreAsignatura: string = '';
-  nombreProfesor: string = '';
   fecha: string = '';
   hora: string = '';
   usuario: any = {};
