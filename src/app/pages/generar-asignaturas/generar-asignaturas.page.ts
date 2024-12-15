@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { Asignatura } from 'src/app/models/asignaturas.model';
+import { NavController } from '@ionic/angular'; // Importa NavController
 
 @Component({
   selector: 'app-generar-asignaturas',
@@ -11,7 +12,10 @@ import { Asignatura } from 'src/app/models/asignaturas.model';
 export class GenerarAsignaturasPage implements OnInit {
   asignaturaForm: FormGroup;
 
-  constructor(private firebaseService: FirebaseService) {
+  constructor(
+    private firebaseService: FirebaseService,
+    private navController: NavController // Inyecta NavController
+  ) {
     this.asignaturaForm = new FormGroup({
       nombre: new FormControl('', [Validators.required]),
       descripcion: new FormControl('', [Validators.required]),
@@ -41,6 +45,9 @@ export class GenerarAsignaturasPage implements OnInit {
           console.log('Asignatura guardada con éxito');
           // Resetear el formulario después de guardar
           this.asignaturaForm.reset();
+
+          // Redirigir a la página profesor-index después de guardar
+          this.navController.navigateForward('/profesor-index'); // Redirige a la página profesor-index
         })
         .catch(error => {
           console.error('Error al guardar la asignatura:', error);
