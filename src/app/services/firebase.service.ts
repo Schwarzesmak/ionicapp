@@ -5,6 +5,8 @@ import { User } from '../models/user.model';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { getFirestore, setDoc, doc, getDoc, collection, addDoc, query, where, getDocs } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { Asistencia } from 'src/app/models/asistencia.model';
+
 
 @Injectable({
   providedIn: 'root'
@@ -192,4 +194,28 @@ async getUsuarioLogueado(): Promise<User | null> {
       throw error;
     }
   }
+
+  // Obtener las asistencias desde Firestore
+async getAsistencias(): Promise<Asistencia[]> {
+  try {
+    const asistencias = await this.getCollection('asistencias'); // 'asistencias' es la colección en Firestore
+    return asistencias as Asistencia[];
+  } catch (error) {
+    console.error('Error al obtener las asistencias:', error);
+    throw error;
+  }
+}
+
+async deleteDocument(collectionPath: string, id: string): Promise<void> {
+  try {
+    const docRef = doc(getFirestore(), collectionPath, id);
+    await setDoc(docRef, null); // Elimina el documento
+    console.log(`Documento eliminado de la colección ${collectionPath} con ID: ${id}`);
+  } catch (error) {
+    console.error(`Error al eliminar el documento con ID ${id}:`, error);
+    throw error;
+  }
+}
+
+
 }

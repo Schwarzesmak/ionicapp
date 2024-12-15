@@ -3,35 +3,38 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/profesor-index"></ion-back-button>
     </ion-buttons>
-    <ion-title>Asitencia Profesor</ion-title>
+    <ion-title>Asistencia Alumnos</ion-title> 
   </ion-toolbar>
 </ion-header>
+
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Lista de Estudiantes</ion-title>
+      <ion-title size="large">Lista de Asistencias</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <!-- Contenedor de la tabla -->
+  <!-- Tabla de asistencias con estilos -->
   <div class="table-container">
     <table class="students-table">
       <thead>
         <tr>
-          <th class="header-column">Nombre</th>
-          <th class="header-column">Email</th>
-          <th class="header-column">Fecha de Inscripción</th>
-          <th class="header-column">Acciones</th>
+          <th>Alumno</th>
+          <th>Asignatura</th>
+          <th>Fecha</th>
+          <th>Hora</th>
+          <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let alumno of alumnos">
-          <td>{{ alumno.name }} {{ alumno.lastname }}</td>
-          <td>{{ alumno.email }}</td>
-          <td>{{ alumno.fechaInscripcion | date: 'dd/MM/yyyy' }}</td>
+        <tr *ngFor="let asistencia of asistencias">
+          <td>{{ asistencia.alumnoNombre }} {{ asistencia.alumnoApellido }}</td>
+          <td>{{ asistencia.asignaturaNombre }}</td>
+          <td>{{ asistencia.fecha }}</td>
+          <td>{{ asistencia.hora }}</td>
           <td>
-            <ion-button size="small" (click)="verDetalles(alumno)">
-              Ver Detalles
+            <ion-button color="danger" size="small" (click)="eliminarAsistencia(asistencia)">
+              Eliminar
             </ion-button>
           </td>
         </tr>

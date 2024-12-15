@@ -3,6 +3,7 @@ import { FirebaseService } from 'src/app/services/firebase.service';
 import { Asistencia } from 'src/app/models/asistencia.model';
 import { NavController } from '@ionic/angular';
 
+
 @Component({
   selector: 'app-confirm-asistencia',
   templateUrl: './confirm-asistencia.page.html',
@@ -49,8 +50,6 @@ export class ConfirmAsistenciaPage implements OnInit {
     }
 
     const asistencia: Asistencia = {
-      profesorNombre: this.nombreProfesor.split(' ')[0] || '',
-      profesorApellido: this.nombreProfesor.split(' ')[1] || '',
       alumnoNombre: this.usuario.name || '',
       alumnoApellido: this.usuario.lastname || '',
       asignaturaNombre: this.nombreAsignatura,
