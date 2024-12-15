@@ -26,7 +26,6 @@ export class ConfirmAsistenciaPage implements OnInit {
 
     if (asistencia && Object.keys(asistencia).length > 0) {
       this.nombreAsignatura = asistencia.nombreAsignatura || '';
-      this.nombreProfesor = asistencia.nombreProfesor || '';
       this.fecha = asistencia.fecha || '';
       this.hora = asistencia.hora || '';
     } else {
@@ -44,7 +43,7 @@ export class ConfirmAsistenciaPage implements OnInit {
   }
 
   async confirmarAsistencia() {
-    if (!this.nombreAsignatura || !this.nombreProfesor) {
+    if (!this.nombreAsignatura) {
       console.error('Faltan datos para confirmar la asistencia.');
       return;
     }
