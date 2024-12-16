@@ -10,21 +10,11 @@
       <ion-card-title>Registros de Asistencia</ion-card-title>
     </ion-card-header>
 
-    <ion-card-content>
-      <ion-list *ngIf="asistencias.length > 0; else noData">
-        <ion-item *ngFor="let registro of asistencias">
-          <ion-label>
-            <h2>{{ registro.fecha }}</h2>
-            <p>{{ registro.asignaturaNombre }} - {{ registro.estado }}</p>
-          </ion-label>
-        </ion-item>
-      </ion-list>
-
+ 
       <ng-template #noData>
         <ion-text color="medium">
           <p>No tienes registros de asistencia disponibles.</p>
         </ion-text>
       </ng-template>
-    </ion-card-content>
   </ion-card>
 </ion-content>
