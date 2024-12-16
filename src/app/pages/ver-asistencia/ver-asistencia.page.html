@@ -1,20 +1,45 @@
 <ion-header>
-  <ion-toolbar color="primary">
-    <ion-title>Mis Asistencias</ion-title>
+  <ion-toolbar>
+    <ion-title>Ver Asistencia</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-card>
+  <!-- Mostrar los detalles de la asistencia si están disponibles -->
+  <ion-card *ngIf="asistencia">
     <ion-card-header>
-      <ion-card-title>Registros de Asistencia</ion-card-title>
+      <ion-card-title>Detalles de Asistencia</ion-card-title>
     </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label position="stacked">Alumno</ion-label>
+        <ion-input [value]="asistencia.alumnoNombre + ' ' + asistencia.alumnoApellido" readonly></ion-input>
+      </ion-item>
 
- 
-      <ng-template #noData>
-        <ion-text color="medium">
-          <p>No tienes registros de asistencia disponibles.</p>
-        </ion-text>
-      </ng-template>
+      <ion-item>
+        <ion-label position="stacked">Asignatura</ion-label>
+        <ion-input [value]="asistencia.asignaturaNombre" readonly></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Fecha</ion-label>
+        <ion-input [value]="asistencia.fecha" readonly></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Hora</ion-label>
+        <ion-input [value]="asistencia.hora" readonly></ion-input>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Mensaje si no hay datos de asistencia -->
+  <ion-card *ngIf="!asistencia">
+    <ion-card-header>
+      <ion-card-title>No se ha registrado asistencia</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>No se encontró información de asistencia registrada para este alumno.</p>
+    </ion-card-content>
   </ion-card>
 </ion-content>
