@@ -45,7 +45,6 @@ export class ConfirmAsistenciaPage implements OnInit {
       return;
     }
 
-    // Crear el objeto de asistencia
     const asistencia = {
       alumnoNombre: this.usuario.name || '',
       alumnoApellido: this.usuario.lastname || '',
