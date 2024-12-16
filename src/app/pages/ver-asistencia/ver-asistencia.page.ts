@@ -6,14 +6,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./ver-asistencia.page.scss'],
 })
 export class VerAsistenciaPage implements OnInit {
-  asistencias = [
-    { fecha: 'Aqui iria una fecha, si tuviera la base de datos', asignatura: 'Aqui iria una asignatura, si tuviera la base de datos', estado: 'Aqui iria un estado, si tuviera la base de datos' },
-    { fecha: '2024-12-01', asignatura: 'Matemáticas', estado: 'Presente' },
-    { fecha: '2024-11-30', asignatura: 'Física', estado: 'Ausente' },
-    { fecha: '2024-11-29', asignatura: 'Química', estado: 'Justificado' },
-  ];
+  asistencia: any = null;  // Se inicializa la propiedad asistencia
 
-  constructor() {}
-
-  ngOnInit() {}
+  ngOnInit() {
+    // Obtener los datos de la asistencia desde localStorage
+    const asistenciaData = localStorage.getItem('asistencia_confirmada');
+    if (asistenciaData) {
+      this.asistencia = JSON.parse(asistenciaData);
+    } else {
+      console.warn('No se encontró información de asistencia.');
+    }
+  }
 }

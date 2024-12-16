@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FirebaseService } from 'src/app/services/firebase.service';
-import { Asistencia } from 'src/app/models/asistencia.model';
 import { NavController } from '@ionic/angular';
-
 
 @Component({
   selector: 'app-confirm-asistencia',
@@ -42,20 +40,24 @@ export class ConfirmAsistenciaPage implements OnInit {
   }
 
   async confirmarAsistencia() {
-    if (!this.nombreAsignatura) {
+    if (!this.nombreAsignatura || !this.fecha || !this.hora) {
       console.error('Faltan datos para confirmar la asistencia.');
       return;
     }
 
-    const asistencia: Asistencia = {
+    const asistencia = {
       alumnoNombre: this.usuario.name || '',
       alumnoApellido: this.usuario.lastname || '',
       asignaturaNombre: this.nombreAsignatura,
-      fecha: this.fecha || new Date().toISOString().split('T')[0],
-      hora: this.hora || new Date().toLocaleTimeString(),
+      fecha: this.fecha,
+      hora: this.hora,
     };
 
     try {
+      // Guardar los datos de asistencia en localStorage
+      localStorage.setItem('asistencia_confirmada', JSON.stringify(asistencia));
+
+      // Registrar la asistencia en Firebase
       await this.firebaseService.addDocumentToCollection('asistencias', asistencia);
       console.log('Asistencia registrada correctamente.');
 
@@ -64,6 +66,7 @@ export class ConfirmAsistenciaPage implements OnInit {
         presente: asistencia.fecha,
       });
 
+      // Limpiar el localStorage y redirigir a la página principal
       localStorage.removeItem('asistencia');
       this.navCtrl.navigateRoot('/main');
     } catch (error) {

@@ -1,9 +1,6 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-title>Asistencia</ion-title>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/main"></ion-back-button>
-    </ion-buttons>
+    <ion-title>Mis Asistencias</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -18,17 +15,16 @@
         <ion-item *ngFor="let registro of asistencias">
           <ion-label>
             <h2>{{ registro.fecha }}</h2>
-            <p>{{ registro.asignatura }} - {{ registro.estado }}</p>
+            <p>{{ registro.asignaturaNombre }} - {{ registro.estado }}</p>
           </ion-label>
         </ion-item>
       </ion-list>
 
       <ng-template #noData>
         <ion-text color="medium">
-          <p>No hay registros de asistencia disponibles.</p>
+          <p>No tienes registros de asistencia disponibles.</p>
         </ion-text>
       </ng-template>
     </ion-card-content>
   </ion-card>
 </ion-content>
-

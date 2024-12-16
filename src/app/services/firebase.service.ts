@@ -3,7 +3,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, sendPasswordResetEmail } from 'firebase/auth';
 import { User } from '../models/user.model';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { getFirestore, setDoc, doc, getDoc, collection, addDoc, query, where, getDocs } from 'firebase/firestore';
+import { getFirestore, setDoc, doc, getDoc, collection, addDoc, query, where, getDocs, Firestore } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { Asistencia } from 'src/app/models/asistencia.model';
 
@@ -217,5 +217,23 @@ async deleteDocument(collectionPath: string, id: string): Promise<void> {
   }
 }
 
+async getCollectionFiltered(collectionName: string, field: string, value: any): Promise<any[]> {
+  const q = query(
+    collection(this.firestore, collectionName),
+    where(field, '==', value)
+  );
+
+  const querySnapshot = await getDocs(q);  // Usamos getDocs para obtener los documentos
+
+  return querySnapshot.docs.map(doc => {
+    const data = doc.data();
+    if (data && typeof data === 'object') {
+      return { id: doc.id, ...data };
+    } else {
+      console.error(`Los datos del documento con ID ${doc.id} no son un objeto válido.`);
+      return { id: doc.id };
+    }
+  });
+}
 
 }
